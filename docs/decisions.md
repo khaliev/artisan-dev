@@ -16,19 +16,27 @@
 ---
 
 ## Tâche 03 — Design System & Thèmes [TERMINÉE]
+- Tokens CSS, thèmes clair/sombre conformes WCAG AA sans noir/blanc pur.
+- Composants atomiques (`Tag`, `Badge`, `CTAButton`, `ArticleCard`, `PlaygroundCard`, `Timeline`).
+
+---
+
+## Tâche 04 — SEO technique, Local SEO & GEO (Generative Engine Optimization) [TERMINÉE]
 
 ### État & Avancement
-- **Variables CSS & Tokens (`src/styles/tokens.css`)** : Thème clair ivoire chaud / crème (`#F8F5EE` / `#FFFDF8`), thème sombre charbon doux / graphite (`#1C1B1A` / `#262422`), typographie éditoriale (*Newsreader* / *Plus Jakarta Sans* / *JetBrains Mono*), et contours de focus accessibles (WCAG 2.2 AA).
-- **Bascule de Thème** : Toggle manuel dans le `Header.astro` avec persistance `localStorage` et script inline anti-FOUC sans flash blanc au rechargement.
-- **Bibliothèque de Composants UI Atomiques** :
-  - `Tag.astro` : Étiquettes de mots-clés et stack technique avec variantes (`default`, `accent`, `outline`).
-  - `Badge.astro` : Badges statutaires (`featured`, `status`, `category`).
-  - `CTAButton.astro` : Boutons d'action réutilisables avec gestion des liens externes.
-  - `ArticleCard.astro` : Carte d'article de blog avec extrait et temps de lecture.
-  - `PlaygroundCard.astro` : Carte pour le laboratoire d'expérimentations.
-  - `Timeline.astro` : Frise chronologique pour le parcours et les expériences.
-- **Intégration sur les Vues** : Mise à jour de `a-propos.astro`, `ProjectCard.astro` et intégration de la frise chronologique.
+- **Composant `<SEO.astro>`** : Centralisation des balises `title`, `meta description`, `canonical`, Open Graph, Twitter Cards, balises `hreflang` multilingues et `x-default` (FR).
+- **Générateurs JSON-LD (`src/lib/seo.ts`)** :
+  - Données structurées `Person` (Adlan, Reims, Grand Est, France).
+  - Données structurées `FAQPage` pour la foire aux questions.
+  - Données structurées `BlogPosting` avec `datePublished` et `dateModified`.
+- **SEO Local** :
+  - Rédaction naturelle d'une section "Zone d'intervention" sur la page d'accueil (Reims, Châlons-en-Champagne, Troyes, Épernay, Charleville-Mézières, Soissons).
+  - Aucune duplication de pages par ville.
+- **Generative Engine Optimization (GEO)** :
+  - Intégration de **phrases définitionnelles claires** dans les 150 premiers tokens des pages d'accueil, À propos et Projets (*"Adlan est un développeur web indépendant basé à Reims..."*).
+  - Structure "extraction-friendly" avec paragraphes factuels et autonomes.
+  - Composant `FAQ.astro` sémantique basé sur `<details>/<summary>` et intégrant le schéma JSON-LD `FAQPage`.
 
 ### Décisions d'architecture prises
-1. **Évite les extrêmes de contraste** : Zéro noir pur (`#000`) et zéro blanc pur (`#fff`) pour une esthétique chaude et un confort de lecture prolongé.
-2. **Atomic Design & Modularité** : Séparation stricte des composants réutilisables (`Tag`, `Badge`, `CTAButton`, `Timeline`) pour garantir un code DRY et facile à maintenir.
+1. **Poids des premiers tokens pour les IA** : Placement prioritaire des phrases d'accroche sous forme d'une définition concise dès le sommet du DOM pour maximiser la citation par les moteurs génératifs (ChatGPT, Perplexity, Gemini, Google AI Overviews).
+2. **SEO local naturel** : Inclusion des villes cibles intégrée dans une prose naturelle sur la page d'accueil au lieu de listes artificielles de mots-clés.
