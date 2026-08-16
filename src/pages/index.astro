@@ -1,88 +1,425 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CTAButton from '../components/CTAButton.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatsStrip from '../components/StatsStrip.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import MethodSteps from '../components/MethodSteps.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import { siteConfig } from '../data/site';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', ({ data }) => data.locale === 'fr'))
+  .sort((a, b) => {
+    if (a.data.featured && !b.data.featured) return -1;
+    if (!a.data.featured && b.data.featured) return 1;
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
+  .slice(0, 3);
+
+const stats = [
+  { value: "3+", label: "projets livrés pour des clients" },
+  { value: "0", label: "cookies ou traqueurs tiers sur mes sites" },
+  { value: "AA", label: "conformité WCAG 2.2 sur chaque livraison" },
+  { value: "100", label: "performance cible sur Lighthouse" },
+];
+
+const services = [
+  {
+    icon: "globe",
+    title: "Sites vitrines & landing pages",
+    description: "Des sites qui présentent votre activité et transforment vos visiteurs en clients.",
+    points: ["SEO & contenus optimisés", "Pages légères (< 100 Ko)", "Formulaires & CTA intégrés"],
+  },
+  {
+    icon: "code",
+    title: "Applications web sur-mesure",
+    description: "Des outils pensés pour vos processus : tableaux de bord, plateformes, back-offices.",
+    points: ["Astro, TypeScript, Node.js", "Architecture statique rapide", "Interfaces accessibles"],
+  },
+  {
+    icon: "gauge",
+    title: "Audit performance & accessibilité",
+    description: "Un diagnostic chiffré de votre site actuel et un plan d'action priorisé.",
+    points: ["Core Web Vitals analysés", "Conformité WCAG 2.2 AA", "Rapport actionnable"],
+  },
+  {
+    icon: "leaf",
+    title: "Éco-conception & sobriété",
+    description: "Des sites au minimum d'impact environnemental, sans superflu.",
+    points: ["0 cookie tiers", "Code épuré et durable", "Hébergement vert"],
+  },
+  {
+    icon: "wrench",
+    title: "Maintenance & évolution",
+    description: "Un suivi serein de votre site : mises à jour, corrections, évolutions.",
+    points: ["SLA transparent", "Mises à jour sécurisées", "Sauvegardes régulières"],
+  },
+  {
+    icon: "terminal",
+    title: "Outils dev & open source",
+    description: "Des outils de ligne de commande et librairies pour les développeurs.",
+    points: ["CLI en TypeScript", "Publiés en open source", "Documentés"],
+  },
+];
+
+const methodSteps = [
+  {
+    title: "Cadrage & écoute",
+    description: "On définit vos objectifs, votre cible et le périmètre. Vous savez exactement ce que vous payez.",
+  },
+  {
+    title: "Conception & contenu",
+    description: "Structure, parcours utilisateur et contenus optimisés pour convertir — avant la première ligne de code.",
+  },
+  {
+    title: "Développement & tests",
+    description: "Je code, teste et valide accessibilité, performance et compatibilité jusqu'au bout.",
+  },
+  {
+    title: "Lancement & suivi",
+    description: "Mise en ligne soignée, formation, puis accompagnement pour durer dans le temps.",
+  },
+];
 ---
 
 <BaseLayout
   title="Accueil"
-  description="Adlan est un développeur web indépendant basé à Reims (Grand Est, France), spécialisé dans la création de sites web sur-mesure, éco-conçus et accessibles."
+  description="Adlan est un développeur web indépendant basé à Reims, spécialisé dans la création de sites web performants, accessibles et éco-conçus."
 >
   <div class="container">
+    <!-- Hero -->
     <section class="hero">
-      <h1 class="hero-title">{siteConfig.name}</h1>
-      
-      <!-- Phrase définitionnelle claire pour les moteurs génératifs (GEO) -->
-      <p class="hero-definition">
-        Adlan est un <strong>développeur web indépendant et artisan du numérique</strong> basé à Reims, 
-        spécialisé dans la création de sites internet éco-conçus, rapides et accessibles (normes WCAG AA).
-      </p>
-
-      <p class="hero-tagline">{siteConfig.tagline.fr}</p>
-
-      <div class="hero-actions">
-        <CTAButton href="/projets/" variant="primary">Découvrir les projets</CTAButton>
-        <CTAButton href="/a-propos/" variant="outline">En savoir plus</CTAButton>
+      <div class="hero-badge">
+        <span class="hero-badge-dot" aria-hidden="true"></span>
+        Disponible pour de nouveaux projets
       </div>
-    </section>
-
-    <!-- Bloc SEO Local : Zone d'intervention rédigée naturellement -->
-    <section class="geo-local-section">
-      <h2>Zone d'intervention & Ancrage local</h2>
-      <p>
-        Installé à Reims dans la région Grand Est, j'accompagne les entreprises, collectivités et créateurs locaux 
-        à <strong>Reims</strong>, <strong>Châlons-en-Champagne</strong>, <strong>Troyes</strong>, <strong>Épernay</strong>, 
-        <strong>Charleville-Mézières</strong> et <strong>Soissons</strong>. Mon approche privilégie la proximité, la transparence 
-        et la réalisation de projets web durables adaptés aux spécificités du territoire.
+      <h1 class="hero-title">
+        Des sites web <span class="hero-accent">performants</span>, accessibles et conçus pour <span class="hero-accent">convertir</span>.
+      </h1>
+      <p class="hero-subtitle">
+        Développeur indépendant & consultant web. Je construis des outils numériques durables qui allient excellence technique et objectifs business.
       </p>
+      <div class="hero-actions">
+        <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">Lancer un projet</CTAButton>
+        <CTAButton href="/projets/" variant="outline">Voir les réalisations</CTAButton>
+      </div>
+      <ul class="hero-proofs">
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          WCAG 2.2 AA
+        </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Performance 100%
+        </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          0 cookie tiers
+        </li>
+      </ul>
     </section>
   </div>
+
+  <!-- Preuves -->
+  <section class="home-section stats-section" aria-label="Résultats et chiffres">
+    <div class="container">
+      <StatsStrip items={stats} />
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="home-section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Expertise"
+        title="Solutions sur-mesure pour votre croissance"
+        subtitle="De la landing page haute performance à l'application métier complexe, j'apporte une réponse technique précise à chaque besoin."
+      />
+      <div class="services-grid">
+        {services.map((service) => (
+          <ServiceCard
+            icon={service.icon}
+            title={service.title}
+            description={service.description}
+            points={service.points}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Projets sélectionnés -->
+  <section class="home-section projects-section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Réalisations"
+        title="Projets sélectionnés"
+        subtitle="Un aperçu de projets récents alliant accessibilité, éco-conception et impact business."
+      />
+      <div class="projects-grid">
+        {projects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+      <div class="section-cta">
+        <CTAButton href="/projets/" variant="secondary">Découvrir tous les projets →</CTAButton>
+      </div>
+    </div>
+  </section>
+
+  <!-- Méthode -->
+  <section class="home-section method-section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Processus"
+        title="Une méthode de travail transparente"
+        subtitle="Un accompagnement structuré en quatre étapes clés pour garantir la réussite de votre projet."
+      />
+      <MethodSteps steps={methodSteps} />
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="home-section">
+    <div class="container">
+      <div class="final-cta">
+        <h2 class="final-cta-title">Prêt à optimiser votre présence en ligne ?</h2>
+        <p class="final-cta-text">
+          Discutons de vos objectifs lors d'un premier échange gratuit. Réponse garantie sous 24h.
+        </p>
+        <div class="final-cta-actions">
+          <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">Me contacter</CTAButton>
+          <div class="social-links">
+            <a href={siteConfig.socials.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <span class="separator">/</span>
+            <a href={siteConfig.socials.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bloc SEO Local -->
+  <section class="home-section geo-local-section">
+    <div class="container">
+      <div class="geo-card">
+        <h2>Expertise locale à Reims & Grand Est</h2>
+        <p>
+          Basé à <strong>Reims</strong>, j'accompagne les entreprises et institutions de la région (Châlons, Troyes, Épernay) dans leur transformation numérique durable. Proximité, réactivité et engagement technique sont au cœur de ma démarche.
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   .hero {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-12);
-    max-width: 800px;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-24);
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    background-color: var(--color-accent-light);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-8);
+    border: 1px solid rgba(var(--color-accent), 0.1);
+  }
+
+  .hero-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
   }
 
   .hero-title {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--space-4);
+    font-size: clamp(var(--text-3xl), 8vw, var(--text-5xl));
+    line-height: 1.1;
+    margin-bottom: var(--space-6);
   }
 
-  .hero-definition {
-    font-size: var(--text-xl);
-    line-height: var(--leading-relaxed);
-    color: var(--color-text);
-    margin-bottom: var(--space-4);
+  .hero-accent {
+    color: var(--color-accent);
   }
 
-  .hero-tagline {
+  .hero-subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-6);
+    line-height: var(--leading-relaxed);
+    max-width: 640px;
+    margin-bottom: var(--space-12);
   }
 
   .hero-actions {
     display: flex;
     gap: var(--space-4);
     flex-wrap: wrap;
+    margin-bottom: var(--space-12);
   }
 
-  .geo-local-section {
-    margin-top: var(--space-12);
-    padding-top: var(--space-8);
+  .hero-proofs {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .hero-proofs li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .hero-proofs svg {
+    color: var(--color-accent);
+  }
+
+  .home-section {
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+  }
+
+  .stats-section {
+    background-color: var(--color-surface);
     border-top: 1px solid var(--color-border);
-    max-width: 720px;
+    border-bottom: 1px solid var(--color-border);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
   }
 
-  .geo-local-section h2 {
-    font-size: var(--text-2xl);
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-12);
+  }
+
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .projects-section {
+    background-color: var(--color-bg);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+  }
+
+  @media (min-width: 768px) {
+    .projects-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .section-cta {
+    margin-top: var(--space-12);
+    text-align: center;
+  }
+
+  .method-section {
+    background-color: var(--color-surface);
+  }
+
+  .final-cta {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-12) var(--space-8);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .final-cta-title {
+    font-size: var(--text-3xl);
     margin-bottom: var(--space-4);
   }
 
-  .geo-local-section p {
+  .final-cta-text {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .final-cta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .social-links {
+    display: flex;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .social-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .separator {
+    opacity: 0.3;
+  }
+
+  .geo-local-section {
+    padding-top: var(--space-12);
+  }
+
+  .geo-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+    max-width: 700px;
+  }
+
+  .geo-card h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .geo-card p {
     font-size: var(--text-base);
     color: var(--color-text-muted);
     line-height: var(--leading-relaxed);

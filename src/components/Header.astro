@@ -16,7 +16,7 @@ const t = useTranslations(currentLocale);
       {siteConfig.name}
     </a>
 
-    <nav class="main-nav" aria-label="Navigation principale">
+    <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
       <ul class="nav-list">
         {navItems.map((item) => {
           const isActive = item.href === pathname || (item.href !== '/' && item.href !== '/en/' && item.href !== '/ru/' && pathname.startsWith(item.href));
@@ -29,10 +29,27 @@ const t = useTranslations(currentLocale);
           );
         })}
       </ul>
+
+      <!-- Sélecteur de langue (menu mobile) -->
+      <div class="lang-selector lang-selector-mobile" aria-label={t('language.select')}>
+        {LOCALES.map((locale) => {
+          const targetPath = getLocalizedPath(currentPageKey, locale);
+          const isCurrent = locale === currentLocale;
+          return (
+            <a
+              href={targetPath}
+              class={`lang-link ${isCurrent ? 'current' : ''}`}
+              aria-label={`Passer en ${t(`language.${locale}`)}`}
+            >
+              {locale.toUpperCase()}
+            </a>
+          );
+        })}
+      </div>
     </nav>
 
     <div class="header-controls">
-      <!-- Sélecteur de langue -->
+      <!-- Sélecteur de langue (desktop) -->
       <div class="lang-selector" aria-label={t('language.select')}>
         {LOCALES.map((locale) => {
           const targetPath = getLocalizedPath(currentPageKey, locale);
@@ -52,6 +69,20 @@ const t = useTranslations(currentLocale);
       <!-- Bascule Thème Clair / Sombre -->
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label={t('theme.toggle')}>
         <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+      </button>
+
+      <!-- Menu hamburger (mobile) -->
+      <button
+        id="nav-toggle"
+        class="nav-toggle"
+        type="button"
+        aria-label={t('menu.open')}
+        data-open-label={t('menu.open')}
+        data-close-label={t('menu.close')}
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -80,6 +111,44 @@ const t = useTranslations(currentLocale);
     const next = current === 'dark' ? 'light' : 'dark';
     setTheme(next);
   });
+
+  // Menu hamburger mobile
+  const navToggle = document.getElementById('nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+
+  function setMenuState(open: boolean) {
+    mainNav?.classList.toggle('open', open);
+    navToggle?.setAttribute('aria-expanded', String(open));
+    if (navToggle) {
+      navToggle.setAttribute('aria-label', open ? navToggle.dataset.closeLabel! : navToggle.dataset.openLabel!);
+    }
+  }
+
+  navToggle?.addEventListener('click', () => {
+    const isOpen = mainNav?.classList.contains('open') ?? false;
+    setMenuState(!isOpen);
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    if (mainNav?.classList.contains('open') && !target.closest('.site-header')) {
+      setMenuState(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      setMenuState(false);
+      navToggle?.focus();
+    }
+  });
+
+  mainNav?.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    if (target.closest('a')) {
+      setMenuState(false);
+    }
+  });
 </script>
 
 <style>
@@ -102,9 +171,10 @@ const t = useTranslations(currentLocale);
   }
 
   .site-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: var(--text-xl);
-    font-weight: 500;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     text-decoration: none;
     color: var(--color-text);
     white-space: nowrap;
@@ -127,15 +197,19 @@ const t = useTranslations(currentLocale);
 
   .nav-link {
     font-size: var(--text-sm);
+    font-weight: 500;
     text-decoration: none;
     color: var(--color-text-muted);
     transition: color var(--transition-fast);
   }
 
-  .nav-link:hover,
+  .nav-link:hover {
+    color: var(--color-accent);
+  }
+
   .nav-link.active {
-    color: var(--color-text);
-    font-weight: 500;
+    color: var(--color-accent);
+    font-weight: 600;
   }
 
   .header-controls {
@@ -168,24 +242,126 @@ const t = useTranslations(currentLocale);
     background: none;
     border: 1px solid var(--color-border);
     color: var(--color-text);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-md);
     cursor: pointer;
     font-size: var(--text-base);
     line-height: 1;
-    transition: background-color var(--transition-fast);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
   }
 
   .theme-toggle:hover {
     background-color: var(--color-surface-hover);
   }
 
+  .lang-selector-mobile {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    line-height: 0;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .nav-toggle:hover {
+    background-color: var(--color-surface-hover);
+  }
+
+  .nav-toggle-icon {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: var(--radius-full);
+  }
+
+  .nav-toggle-icon::before,
+  .nav-toggle-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: var(--radius-full);
+    transition: transform var(--transition-fast), top var(--transition-fast);
+  }
+
+  .nav-toggle-icon::before {
+    top: -6px;
+  }
+
+  .nav-toggle-icon::after {
+    top: 6px;
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-icon {
+    background-color: transparent;
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
   @media (max-width: 768px) {
-    .header-inner {
-      flex-wrap: wrap;
+    .nav-toggle {
+      display: flex;
     }
+
+    .header-controls .lang-selector {
+      display: none;
+    }
+
+    .main-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background-color: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-4) var(--space-6) var(--space-6);
+    }
+
+    .main-nav.open {
+      display: flex;
+    }
+
     .nav-list {
-      gap: var(--space-3);
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .nav-link {
+      display: block;
+      padding: var(--space-3) 0;
+      font-size: var(--text-base);
+    }
+
+    .lang-selector-mobile {
+      display: flex;
+      margin-top: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border);
     }
   }
 </style>

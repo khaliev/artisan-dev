@@ -1,4 +1,8 @@
 {
+  "menu": {
+    "open": "Ouvrir le menu",
+    "close": "Fermer le menu"
+  },
   "theme": {
     "toggle": "Changer le thème",
     "light": "Clair",

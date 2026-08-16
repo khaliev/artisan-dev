@@ -10,7 +10,6 @@ import { getCollection } from 'astro:content';
 const rawExperiences = await getCollection('experience');
 const experiences = rawExperiences
   .sort((a, b) => {
-    // current entries first, then by dateStart descending
     if (a.data.current && !b.data.current) return -1;
     if (!a.data.current && b.data.current) return 1;
     return parseInt(b.data.dateStart) - parseInt(a.data.dateStart);
@@ -19,20 +18,20 @@ const experiences = rawExperiences
 
 const faqItems = [
   {
-    question: "Où êtes-vous basé et quelle est votre zone d'intervention ?",
-    answer: "Je suis basé à Reims dans la région Grand Est. J'interviens localement à Reims, Châlons-en-Champagne, Troyes, Épernay, Charleville-Mézières et Soissons, ainsi qu'à distance pour des projets dans toute la France."
+    question: "Quelle est votre approche de consultant sur un projet ?",
+    answer: "Mon approche est orientée 'Product-Minded' : je ne me contente pas de coder, je m'assure que chaque fonctionnalité répond à un besoin business réel. Je privilégie la simplicité, la performance et l'accessibilité pour maximiser votre ROI."
   },
   {
-    question: "Qu'est-ce qu'un site internet éco-conçu ?",
-    answer: "Un site éco-conçu est optimisé pour consommer un minimum de ressources informatiques et d'énergie. Cela se traduit par un code épuré, des pages légères, l'absence de traqueurs lourds et un temps de chargement quasi-instantané qui réduit l'empreinte carbone."
+    question: "Pourquoi choisir l'éco-conception pour mon site business ?",
+    answer: "L'éco-conception améliore directement vos performances (Core Web Vitals), réduit vos coûts d'hébergement et améliore l'expérience utilisateur sur mobile et connexions lentes. C'est un avantage compétitif mesurable."
   },
   {
-    question: "Quelles technologies utilisez-vous pour développer vos projets ?",
-    answer: "J'utilise principalement Astro, TypeScript, du HTML5 sémantique et du CSS Vanilla. Cette architecture moderne garantit des performances élevées, une sécurité optimale et une maintenance facilitée."
+    question: "Quelles technologies privilégiez-vous ?",
+    answer: "Astro, TypeScript et le CSS moderne. Cette stack permet de livrer des sites statiques ultra-rapides, sécurisés et extrêmement faciles à maintenir, tout en gardant une totale liberté de design."
   },
   {
-    question: "Les sites sont-ils conformes aux normes d'accessibilité ?",
-    answer: "Oui, la totalité de mes créations respecte le niveau WCAG 2.2 AA. La navigation complète au clavier, le contraste des couleurs vérifié et l'usage de balises sémantiques sont systématiquement appliqués."
+    question: "Garantissez-vous la conformité accessibilité ?",
+    answer: "Absolument. Chaque livraison est testée pour respecter le niveau WCAG 2.2 AA. C'est une exigence non seulement éthique et légale, mais aussi une opportunité d'élargir votre audience."
   }
 ];
 
@@ -41,104 +40,177 @@ const faqSchema = generateFAQSchema(faqItems);
 ---
 
 <BaseLayout
-  title="À propos"
-  description="Adlan est un développeur web indépendant basé à Reims (Grand Est, France). Découvrir son parcours, sa philosophie d'éco-conception et sa foire aux questions."
+  title="À propos | Développeur Freelance & Consultant"
+  description="Découvrez le profil d'Adlan, développeur freelance et consultant web spécialisé en performance, accessibilité et éco-conception à Reims."
   jsonLd={[personSchema, faqSchema]}
 >
   <div class="container">
     <header class="page-header">
-      <h1 class="page-title">À propos</h1>
-      <!-- Phrase définitionnelle pour l'extraction GEO -->
+      <div class="expertise-badge">Expertise Technique & Conseil</div>
+      <h1 class="page-title">Développeur Freelance & Consultant Product-Minded</h1>
       <p class="subtitle">
-        Adlan est un <strong>artisan du numérique et développeur web indépendant</strong> basé à Reims (Grand Est, France), 
-        spécialisé dans les sites internet éco-conçus et la performance web.
+        Basé à Reims, j'accompagne les entreprises dans la création d'outils numériques 
+        <strong>performants, accessibles et durables</strong>.
       </p>
     </header>
 
-    <section class="bio-section">
-      <div class="bio-content">
-        <h2>Philosophie & Démarche</h2>
-        <p>
-          Je conçois le développement web comme un artisanat : chaque ligne de code doit être pensée avec soin, 
-          sobriété et durabilité. Loin des usines à gaz informatiques, je privilégie des architectures légères,
-          sans superflu, qui durent dans le temps.
-        </p>
-        <p>
-          Basé à Reims, j'interviens dans toute la région Grand Est ({siteConfig.location.cities.slice(0, 5).join(', ')}) 
-          pour aider les projets locaux à se doter d'outils numériques éco-conçus et accessibles à tous.
-        </p>
-
-        <div class="cta-wrapper">
-          <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">
-            Me contacter par email
-          </CTAButton>
-          <CTAButton href={siteConfig.socials.github} variant="outline" external>
-            Voir GitHub
-          </CTAButton>
+    <div class="profile-grid">
+      <section class="expertise-section">
+        <h2>Expertises Clés</h2>
+        <div class="expertise-cards">
+          <div class="exp-card">
+            <h3>Performance Web</h3>
+            <p>Optimisation radicale des Core Web Vitals pour un SEO et une conversion au sommet.</p>
+          </div>
+          <div class="exp-card">
+            <h3>Accessibilité (WCAG)</h3>
+            <p>Conception inclusive garantissant un accès universel à vos services numériques.</p>
+          </div>
+          <div class="exp-card">
+            <h3>Architecture Moderne</h3>
+            <p>Développement avec Astro & TypeScript pour des sites robustes, légers et maintenables.</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section class="bio-section">
+        <h2>Philosophie & Vision</h2>
+        <div class="bio-content">
+          <p>
+            En tant que consultant, mon rôle est de transformer vos problématiques business en solutions techniques sobres et efficaces. Je crois en un web sans superflu, où la qualité du code sert directement l'expérience utilisateur.
+          </p>
+          <p>
+            J'interviens principalement dans le Grand Est ({siteConfig.location.cities.slice(0, 4).join(', ')}) et à distance, en plaçant la transparence et la rigueur technique au centre de chaque collaboration.
+          </p>
+          <div class="cta-wrapper">
+            <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">
+              Discuter d'une collaboration
+            </CTAButton>
+            <CTAButton href={siteConfig.socials.linkedin} variant="outline" external>
+              LinkedIn
+            </CTAButton>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <section class="experience-section">
-      <h2>Parcours & Expérience</h2>
+      <h2>Parcours Professionnel</h2>
       <Timeline items={experiences} locale="fr" />
     </section>
 
-    <FAQ items={faqItems} title="Questions fréquentes (FAQ)" />
+    <FAQ items={faqItems} title="Questions & Conseil" />
   </div>
 </BaseLayout>
 
 <style>
   .page-header {
-    padding-top: var(--space-8);
-    padding-bottom: var(--space-8);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    max-width: 800px;
+  }
+
+  .expertise-badge {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-4);
   }
 
   .page-title {
-    font-size: var(--text-3xl);
-    margin-bottom: var(--space-2);
+    font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
+    margin-bottom: var(--space-4);
+    line-height: 1.1;
   }
 
   .subtitle {
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     color: var(--color-text-muted);
-  }
-
-  .bio-section {
-    margin-bottom: var(--space-12);
-  }
-
-  .bio-content {
-    max-width: 720px;
-    font-size: var(--text-lg);
     line-height: var(--leading-relaxed);
   }
 
-  .bio-content h2 {
+  .profile-grid {
+    display: grid;
+    gap: var(--space-16);
+    margin-bottom: var(--space-24);
+  }
+
+  @media (min-width: 1024px) {
+    .profile-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .expertise-section h2, .bio-section h2 {
     font-size: var(--text-2xl);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-8);
+    position: relative;
+    padding-bottom: var(--space-2);
+  }
+
+  .expertise-section h2::after, .bio-section h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-accent);
+  }
+
+  .expertise-cards {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .exp-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+  }
+
+  .exp-card h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+    color: var(--color-accent);
+  }
+
+  .exp-card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .bio-content {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-muted);
   }
 
   .bio-content p {
     margin-bottom: var(--space-4);
-    color: var(--color-text-muted);
   }
 
   .cta-wrapper {
     display: flex;
     gap: var(--space-4);
-    margin-top: var(--space-6);
+    margin-top: var(--space-8);
     flex-wrap: wrap;
   }
 
   .experience-section {
-    padding-top: var(--space-8);
+    padding-top: var(--space-16);
     border-top: 1px solid var(--color-border);
-    max-width: 720px;
+    margin-bottom: var(--space-24);
   }
 
   .experience-section h2 {
     font-size: var(--text-2xl);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-12);
   }
 </style>

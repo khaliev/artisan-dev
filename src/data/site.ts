@@ -22,9 +22,9 @@ export const siteConfig: SiteConfig = {
   author: "Adlan KHALIEV",
   email: "adlan.khaliev@tuta.io",
   tagline: {
-    fr: "Développeur web indépendant & artisan du numérique",
-    en: "Independent Web Developer & Digital Craftsman",
-    ru: "Независимый веб-разработчик и цифровой ремесленник",
+    fr: "Développeur indépendant · Sites web rapides & accessibles",
+    en: "Independent Developer · Fast & Accessible Websites",
+    ru: "Независимый разработчик · Быстрые и доступные сайты",
   },
   location: {
     country: "France",
