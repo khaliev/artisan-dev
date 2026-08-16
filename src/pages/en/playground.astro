@@ -1,27 +1,134 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaygroundCard from '../../components/PlaygroundCard.astro';
+import { getCollection } from 'astro:content';
+
+const allItems = await getCollection('playground', ({ data }) => data.locale === 'en');
+const items = allItems.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const types = ['experiment', 'component', 'prototype', 'challenge', 'lab-note'] as const;
+const typeLabels: Record<string, string> = {
+  experiment: 'Experiment',
+  component: 'Component',
+  prototype: 'Prototype',
+  challenge: 'Challenge',
+  'lab-note': 'Lab Note',
+};
 ---
 
-<BaseLayout title="Playground" description="Experiments, components, and prototypes.">
+<BaseLayout
+  title="Playground"
+  description="A free space to document experiments, build components, and log learning notes on eco-designed web development."
+>
   <div class="container">
     <header class="page-header">
       <h1>Playground</h1>
-      <p class="subtitle">Digital lab, experimental components, and prototypes.</p>
+      <p class="subtitle">
+        An open space to document experiments, compose components, and note down learnings.
+      </p>
     </header>
+
+    <nav class="type-filters" aria-label="Filter by type">
+      <button class="filter-btn active" data-filter="all" id="filter-all">All</button>
+      {types.filter(t => items.some(i => i.data.type === t)).map((type) => (
+        <button class="filter-btn" data-filter={type} id={`filter-${type}`}>
+          {typeLabels[type]}
+        </button>
+      ))}
+    </nav>
+
+    {items.length === 0 ? (
+      <p class="empty-state">Nothing here yet — coming soon!</p>
+    ) : (
+      <ul class="playground-grid" role="list" id="playground-grid">
+        {items.map((item) => (
+          <li data-type={item.data.type} class="grid-item">
+            <PlaygroundCard item={item} />
+          </li>
+        ))}
+      </ul>
+    )}
   </div>
 </BaseLayout>
+
+<script>
+  const grid = document.getElementById('playground-grid');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? 'all';
+      buttons.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (!grid) return;
+      const items = grid.querySelectorAll<HTMLLIElement>('.grid-item');
+      items.forEach((item) => {
+        const show = filter === 'all' || item.dataset.type === filter;
+        item.style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
 
 <style>
   .page-header {
     padding-top: var(--space-8);
-    padding-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
   }
+
   h1 {
     font-size: var(--text-3xl);
     margin-bottom: var(--space-2);
   }
+
   .subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
+    max-width: 600px;
+  }
+
+  .type-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #ffffff;
+  }
+
+  .playground-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-6);
+    padding-bottom: var(--space-16);
+  }
+
+  .empty-state {
+    color: var(--color-text-muted);
+    font-style: italic;
+    padding: var(--space-12) 0;
   }
 </style>

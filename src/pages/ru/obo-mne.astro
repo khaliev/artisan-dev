@@ -5,36 +5,16 @@ import CTAButton from '../../components/CTAButton.astro';
 import FAQ from '../../components/FAQ.astro';
 import { siteConfig } from '../../data/site';
 import { generatePersonSchema, generateFAQSchema } from '../../lib/seo';
+import { getCollection } from 'astro:content';
 
-const experiences = [
-  {
-    role: "Независимый веб-разработчик и цифровой ремесленник",
-    company: "Artisan Développeur",
-    dateStart: "2024",
-    current: true,
-    location: "Реймс, Франция",
-    summary: "Проектирование и создание экологичных, быстрых и доступных веб-приложений.",
-    details: [
-      "Разработка высокопроизводительных статических сайтов на Astro и TypeScript.",
-      "Сопровождение компаний во Франции в создании качественного цифрового присутствия.",
-      "Оптимизация производительности (Core Web Vitals) и доступности WCAG AA."
-    ],
-    skills: ["Astro", "TypeScript", "Эко-дизайн", "Accessibility", "CSS Custom Properties"]
-  },
-  {
-    role: "Front-End Разработчик",
-    company: "Digital Studio",
-    dateStart: "2022",
-    dateEnd: "2024",
-    location: "Гранд-Эст, Франция",
-    summary: "Создание современных пользовательских интерфейсов для различных клиентских проектов.",
-    details: [
-      "Адаптивная верстка интерфейсов с соблюдением веб-стандартов.",
-      "Тестирование и аудит производительности."
-    ],
-    skills: ["JavaScript", "HTML5/CSS3", "Design Systems", "Web Performance"]
-  }
-];
+const rawExperiences = await getCollection('experience');
+const experiences = rawExperiences
+  .sort((a, b) => {
+    if (a.data.current && !b.data.current) return -1;
+    if (!a.data.current && b.data.current) return 1;
+    return parseInt(b.data.dateStart) - parseInt(a.data.dateStart);
+  })
+  .map((e) => e.data);
 
 const faqItems = [
   {
@@ -97,7 +77,7 @@ const faqSchema = generateFAQSchema(faqItems);
 
     <section class="experience-section">
       <h2>Опыт и карьера</h2>
-      <Timeline items={experiences} />
+      <Timeline items={experiences} locale="ru" />
     </section>
 
     <FAQ items={faqItems} title="Часто задаваемые вопросы (FAQ)" />

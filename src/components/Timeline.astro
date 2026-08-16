@@ -1,5 +1,6 @@
 ---
 import Tag from './Tag.astro';
+import type { Locale } from '../lib/i18n';
 
 export interface TimelineItem {
   role: string;
@@ -15,9 +16,16 @@ export interface TimelineItem {
 
 interface Props {
   items: TimelineItem[];
+  locale?: Locale;
 }
 
-const { items } = Astro.props;
+const { items, locale = 'fr' } = Astro.props;
+
+const currentLabel: Record<Locale, string> = {
+  fr: 'Présent',
+  en: 'Present',
+  ru: 'Настоящее время',
+};
 ---
 
 <div class="timeline">
@@ -27,7 +35,7 @@ const { items } = Astro.props;
       <div class="timeline-content">
         <div class="timeline-header">
           <span class="timeline-date">
-            {item.dateStart} — {item.current ? 'Présent' : item.dateEnd}
+            {item.dateStart} — {item.current ? currentLabel[locale] : item.dateEnd}
           </span>
           {item.location && <span class="timeline-location">{item.location}</span>}
         </div>

@@ -47,3 +47,25 @@
 ### Décisions d'architecture prises
 1. **Ligne de lecture confortable** : Restriction de la largeur maximale du corps de texte d'article à 720px avec typographie agrandie pour un confort de lecture optimal.
 2. **RSS unifié et trié** : Inclusion de tous les articles publiés dans le flux RSS principal `/rss.xml` ordonnés par date de publication récente.
+
+---
+
+## Tâche 06 — Expérience & Atelier [TERMINÉE]
+
+### État & Avancement
+- **Collection `experience`** alimentée par 2 fichiers YAML dans `src/content/experience/` (poste actuel + précédent).
+- **Pages À propos (FR/EN/RU)** refactorisées pour lire la collection via `getCollection('experience')` au lieu de données en dur. Tri automatique : postes actuels en premier, puis `dateStart` décroissant.
+- **`Timeline.astro`** enrichi d'une prop `locale` pour adapter le label "Présent / Present / Настоящее время" selon la langue.
+- **Collection `playground`** alimentée par 9 fichiers MD (3 items × 3 langues) :
+  - *Thème sombre adaptatif sans JavaScript* (experiment)
+  - *Composant Card accessible avec focus visible* (component)
+  - *Mesurer le poids carbone d'une page web* (lab-note)
+- **Pages listing Atelier** (`/atelier/`, `/en/playground/`, `/ru/masterskaya/`) : grille CSS auto-fill + filtres par `type` en JS vanilla minimal (aucun framework).
+- **Pages détail Atelier** : 3 répertoires `[slug].astro` (FR/EN/RU) avec rendu Markdown, champs optionnels safe, badge type accent, lien retour localisé.
+- **36 pages statiques** générées au build (depuis 27 à la tâche 05).
+
+### Décisions d'architecture prises
+1. **Contenu d'expérience centralisé** : les fichiers YAML dans `experience/` sont la source unique de vérité pour les 3 pages About — plus de duplication entre langues.
+2. **Filtre JS minimaliste** : le filtre par type est implémenté en ~15 lignes de JS natif sur `data-type` attributes — aucune lib, aucun bundle supplémentaire.
+3. **Badge type accentué** : sur les pages détail Atelier, le badge de type utilise `var(--color-accent)` (bordure + texte) au lieu du badge neutre des projets, pour renforcer le ton "lab" de l'Atelier.
+

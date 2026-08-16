@@ -5,36 +5,17 @@ import CTAButton from '../components/CTAButton.astro';
 import FAQ from '../components/FAQ.astro';
 import { siteConfig } from '../data/site';
 import { generatePersonSchema, generateFAQSchema } from '../lib/seo';
+import { getCollection } from 'astro:content';
 
-const experiences = [
-  {
-    role: "Développeur Web Indépendant & Artisan du Numérique",
-    company: "Artisan Développeur",
-    dateStart: "2024",
-    current: true,
-    location: "Reims, France",
-    summary: "Conception et réalisation d'applications web sur-mesure, éco-conçues, rapides et accessibles.",
-    details: [
-      "Développement de sites statiques haute performance avec Astro et TypeScript.",
-      "Accompagnement des entreprises locales en Région Grand Est dans leur présence numérique.",
-      "Optimisation de la performance (Core Web Vitals) et de l'accessibilité WCAG AA."
-    ],
-    skills: ["Astro", "TypeScript", "Éco-conception", "Accessibility", "CSS Custom Properties"]
-  },
-  {
-    role: "Développeur Front-End",
-    company: "Studio Numérique",
-    dateStart: "2022",
-    dateEnd: "2024",
-    location: "Grand Est, France",
-    summary: "Création d'interfaces utilisateur modernes et réactives pour des projets clients variés.",
-    details: [
-      "Intégration d'interfaces web responsives et respect des standards Web.",
-      "Mise en place de tests d'intégration et audit de performance."
-    ],
-    skills: ["JavaScript", "HTML5/CSS3", "Design Systems", "Web Performance"]
-  }
-];
+const rawExperiences = await getCollection('experience');
+const experiences = rawExperiences
+  .sort((a, b) => {
+    // current entries first, then by dateStart descending
+    if (a.data.current && !b.data.current) return -1;
+    if (!a.data.current && b.data.current) return 1;
+    return parseInt(b.data.dateStart) - parseInt(a.data.dateStart);
+  })
+  .map((e) => e.data);
 
 const faqItems = [
   {
@@ -100,7 +81,7 @@ const faqSchema = generateFAQSchema(faqItems);
 
     <section class="experience-section">
       <h2>Parcours & Expérience</h2>
-      <Timeline items={experiences} />
+      <Timeline items={experiences} locale="fr" />
     </section>
 
     <FAQ items={faqItems} title="Questions fréquentes (FAQ)" />

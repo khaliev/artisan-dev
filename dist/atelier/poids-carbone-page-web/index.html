@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="fr" data-astro-cid-z4jru4n3><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v7.2.2"><!-- Primary Meta Tags --><title>Mesurer le poids carbone d&#39;une page web — Artisan Développeur</title><meta name="description" content="Note de laboratoire : méthode pratique pour estimer et réduire l'empreinte carbone d'une page web, avec des outils concrets."><link rel="canonical" href="https://artisan-dev.fr/atelier/poids-carbone-page-web/"><!-- Hreflang Tags --><link rel="alternate" hreflang="fr" href="https://artisan-dev.fr/"><link rel="alternate" hreflang="en" href="https://artisan-dev.fr/en/"><link rel="alternate" hreflang="ru" href="https://artisan-dev.fr/ru/"><link rel="alternate" hreflang="x-default" href="https://artisan-dev.fr/"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://artisan-dev.fr/atelier/poids-carbone-page-web/"><meta property="og:title" content="Mesurer le poids carbone d'une page web — Artisan Développeur"><meta property="og:description" content="Note de laboratoire : méthode pratique pour estimer et réduire l'empreinte carbone d'une page web, avec des outils concrets."><!-- Twitter --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Mesurer le poids carbone d'une page web — Artisan Développeur"><meta name="twitter:description" content="Note de laboratoire : méthode pratique pour estimer et réduire l'empreinte carbone d'une page web, avec des outils concrets."><!-- JSON-LD Structured Data --><!-- Script inline anti-FOUC pour le thème --><script>
+      (function() {
+        var savedTheme = localStorage.getItem('theme');
+        var theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.54L3s3Sa.css"><link rel="stylesheet" href="/_astro/BaseLayout.Bg7Gkc9T.css"></head><body data-astro-cid-z4jru4n3><header class="site-header" data-astro-cid-nen7h5rs><div class="container header-inner" data-astro-cid-nen7h5rs><a href="/" class="site-title" data-astro-cid-nen7h5rs>Artisan Développeur</a><nav class="main-nav" aria-label="Navigation principale" data-astro-cid-nen7h5rs><ul class="nav-list" data-astro-cid-nen7h5rs><li data-astro-cid-nen7h5rs><a href="/" class="nav-link" data-astro-cid-nen7h5rs>Accueil</a></li><li data-astro-cid-nen7h5rs><a href="/a-propos/" class="nav-link" data-astro-cid-nen7h5rs>À propos</a></li><li data-astro-cid-nen7h5rs><a href="/projets/" class="nav-link" data-astro-cid-nen7h5rs>Projets</a></li><li data-astro-cid-nen7h5rs><a href="/atelier/" class="nav-link active" aria-current="page" data-astro-cid-nen7h5rs>Atelier</a></li><li data-astro-cid-nen7h5rs><a href="/blog/" class="nav-link" data-astro-cid-nen7h5rs>Blog / Journal</a></li></ul></nav><div class="header-controls" data-astro-cid-nen7h5rs><!-- Sélecteur de langue --><div class="lang-selector" aria-label="Langue" data-astro-cid-nen7h5rs><a href="/" class="lang-link current" aria-label="Passer en Français" data-astro-cid-nen7h5rs>FR</a><a href="/en/" class="lang-link " aria-label="Passer en English" data-astro-cid-nen7h5rs>EN</a><a href="/ru/" class="lang-link " aria-label="Passer en Русский" data-astro-cid-nen7h5rs>RU</a></div><!-- Bascule Thème Clair / Sombre --><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Changer le thème" data-astro-cid-nen7h5rs><span class="theme-toggle-icon" aria-hidden="true" data-astro-cid-nen7h5rs>◐</span></button></div></div></header><script type="module">var e=document.getElementById(`theme-toggle`);function t(){return localStorage.getItem(`theme`)||(window.matchMedia(`(prefers-color-scheme: dark)`).matches?`dark`:`light`)}function n(e){document.documentElement.setAttribute(`data-theme`,e),localStorage.setItem(`theme`,e)}n(t()),e?.addEventListener(`click`,()=>{n((document.documentElement.getAttribute(`data-theme`)||t())===`dark`?`light`:`dark`)});</script><main id="main-content" class="main-body" data-astro-cid-z4jru4n3><article class="item-detail" data-astro-cid-f4td6vzg><div class="container" data-astro-cid-f4td6vzg><a href="/atelier/" class="back-link" data-astro-cid-f4td6vzg>&larr; Retour à l'Atelier</a><header class="detail-header" data-astro-cid-f4td6vzg><div class="header-meta" data-astro-cid-f4td6vzg><time datetime="2026-08-05T00:00:00.000Z" data-astro-cid-f4td6vzg>5 août 2026</time><span class="badge-type" data-astro-cid-f4td6vzg>Note de labo</span></div><h1 class="item-title" data-astro-cid-f4td6vzg>Mesurer le poids carbone d&#39;une page web</h1><p class="item-summary" data-astro-cid-f4td6vzg>Note de laboratoire : méthode pratique pour estimer et réduire l&#39;empreinte carbone d&#39;une page web, avec des outils concrets.</p><div class="stack-tags" data-astro-cid-f4td6vzg><span class="tag" data-astro-cid-f4td6vzg>Performance</span><span class="tag" data-astro-cid-f4td6vzg>Éco-conception</span><span class="tag" data-astro-cid-f4td6vzg>DevTools</span></div></header><div class="content-body" data-astro-cid-f4td6vzg><h2 id="pourquoi-mesurer-">Pourquoi mesurer ?</h2>
+<p>Le numérique représente environ 4% des émissions mondiales de CO₂. Une page web typique pèse aujourd’hui plus de 2 Mo — soit 10× plus qu’en 2010.</p>
+<h2 id="outils-utilisés">Outils utilisés</h2>
+<ul>
+<li><strong><a href="https://www.websitecarbon.com/">Website Carbon Calculator</a></strong> : estime les émissions CO₂ par visite</li>
+<li><strong>Chrome DevTools → Network</strong> : analyse le poids total transféré</li>
+<li><strong>Lighthouse</strong> : score Performance + opportunités d’optimisation</li>
+</ul>
+<h2 id="résultats-sur-ce-site">Résultats sur ce site</h2>
+<table>
+<thead>
+<tr>
+<th>Métrique</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Poids total (home)</td>
+<td>~28 Ko</td>
+</tr>
+<tr>
+<td>CO₂ par visite</td>
+<td>~0.002 g</td>
+</tr>
+<tr>
+<td>Score Lighthouse</td>
+<td>98+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="actions-les-plus-efficaces">Actions les plus efficaces</h2>
+<ol>
+<li><strong>Supprimer les fonts inutilisées</strong> — chaque <code>font-face</code> peut coûter 50–200 Ko</li>
+<li><strong>Passer à des formats modernes</strong> — WebP, AVIF au lieu de PNG/JPG</li>
+<li><strong>Pas de librairie JS côté client</strong> — un framework React/Vue peut peser 100–300 Ko seul</li>
+<li><strong>Activer la compression Brotli</strong> côté serveur</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>L’éco-conception n’est pas un sacrifice — c’est une contrainte créative. Un site léger est toujours un site rapide et un site rapide convertit mieux.</p>
+</div></div></article></main><footer class="site-footer" data-astro-cid-jo6i4kqk><div class="container footer-inner" data-astro-cid-jo6i4kqk><div class="footer-info" data-astro-cid-jo6i4kqk><p class="footer-brand" data-astro-cid-jo6i4kqk>Artisan Développeur</p><p class="footer-tagline" data-astro-cid-jo6i4kqk>Développeur web indépendant &amp; artisan du numérique</p><p class="footer-location" data-astro-cid-jo6i4kqk>Basé à Reims (Grand Est, France).</p></div><div class="footer-links" data-astro-cid-jo6i4kqk><div class="social-links" data-astro-cid-jo6i4kqk><a href="https://github.com" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>GitHub</a><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>LinkedIn</a><a href="mailto:contact@artisan-dev.fr" data-astro-cid-jo6i4kqk>Contact</a></div><p class="footer-copyright" data-astro-cid-jo6i4kqk>&copy; 2026 Adlan. Tous droits réservés.</p></div></div></footer></body></html>
