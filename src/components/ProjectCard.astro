@@ -1,0 +1,172 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getLocalizedPath } from '../lib/i18n';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+
+const detailPath = getLocalizedPath('projects', data.locale) + data.slug;
+const formattedDate = new Date(data.date).toLocaleDateString(data.locale, {
+  year: 'numeric',
+  month: 'short',
+});
+---
+
+<article class={`project-card ${!data.coverImage ? 'no-cover' : ''}`}>
+  <a href={detailPath} class="card-link">
+    {data.coverImage ? (
+      <div class="card-image-wrapper">
+        <img src={data.coverImage} alt={data.title} loading="lazy" class="card-image" />
+        {data.featured && <span class="badge badge-featured">★ Featured</span>}
+      </div>
+    ) : (
+      <div class="card-header-no-image">
+        {data.featured && <span class="badge badge-featured">★ Featured</span>}
+        <span class="badge badge-status">{data.status}</span>
+      </div>
+    )}
+
+    <div class="card-body">
+      <div class="card-meta">
+        <time datetime={new Date(data.date).toISOString()}>{formattedDate}</time>
+        {data.coverImage && <span class="badge badge-status">{data.status}</span>}
+      </div>
+
+      <h2 class="card-title">{data.title}</h2>
+      <p class="card-summary">{data.summary}</p>
+
+      {data.stack && data.stack.length > 0 && (
+        <div class="card-tags">
+          {data.stack.map((item) => (
+            <span class="tag">{item}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .project-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-surface-hover);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+  }
+
+  .project-card:hover .card-image {
+    transform: scale(1.03);
+  }
+
+  .card-header-no-image {
+    padding: var(--space-4) var(--space-6) 0 var(--space-6);
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .card-body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-2);
+  }
+
+  .card-title {
+    font-size: var(--text-xl);
+    font-family: var(--font-serif);
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  .card-summary {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-4);
+    flex: 1;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: auto;
+  }
+
+  .tag {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-muted);
+  }
+
+  .badge {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .badge-featured {
+    background-color: var(--color-accent);
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  .card-image-wrapper .badge-featured {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+  }
+
+  .badge-status {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+</style>

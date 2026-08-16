@@ -1,0 +1,92 @@
+---
+import { siteConfig } from '../data/site';
+import { getLocaleFromUrl, useTranslations, type Locale } from '../lib/i18n';
+
+const pathname = Astro.url.pathname;
+const locale: Locale = getLocaleFromUrl(pathname);
+const t = useTranslations(locale);
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-info">
+      <p class="footer-brand">{siteConfig.name}</p>
+      <p class="footer-tagline">{siteConfig.tagline[locale]}</p>
+      <p class="footer-location">
+        Basé à {siteConfig.location.cities[0]} ({siteConfig.location.region}, {siteConfig.location.country}).
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <div class="social-links">
+        <a href={siteConfig.socials.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href={siteConfig.socials.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href={`mailto:${siteConfig.email}`}>Contact</a>
+      </div>
+      <p class="footer-copyright">
+        &copy; {currentYear} {siteConfig.author}. {t('footer.rights')}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+    background-color: var(--color-bg);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .footer-brand {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .footer-tagline {
+    margin-bottom: var(--space-2);
+  }
+
+  .footer-location {
+    font-size: var(--text-xs);
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+  }
+
+  .social-links {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .footer-copyright {
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+    }
+    .footer-links {
+      align-items: flex-start;
+    }
+  }
+</style>

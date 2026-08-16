@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Обо мне" description="Презентация и опыт Адлана, независимого веб-разработчика.">
+  <div class="container">
+    <header class="page-header">
+      <h1>Обо мне</h1>
+      <p class="subtitle">Цифровой ремесленник и независимый веб-разработчик.</p>
+    </header>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2);
+  }
+  .subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+</style>

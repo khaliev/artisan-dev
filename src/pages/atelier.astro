@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Atelier" description="Expérimentations, composants et prototypes.">
+  <div class="container">
+    <header class="page-header">
+      <h1>Atelier</h1>
+      <p class="subtitle">Laboratoire d'expérimentations, composants et prototypes.</p>
+    </header>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2);
+  }
+  .subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+</style>

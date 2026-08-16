@@ -1,0 +1,151 @@
+/* Design Tokens - Editorial, Warm, Minimal, Premium-Quiet */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Typography */
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3rem;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* Spacing (Generous) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Layout */
+  --max-width: 1040px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
+
+/* Light Theme Variables */
+:root,
+[data-theme="light"] {
+  --color-bg: #F8F5EE;
+  --color-surface: #FFFDF8;
+  --color-surface-hover: #F2EDE4;
+  --color-text: #2C2825;
+  --color-text-muted: #766E65;
+  --color-border: #E2DCC8;
+  --color-accent: #3B6E79;
+  --color-accent-hover: #2C555F;
+  --color-accent-light: #EBF3F4;
+}
+
+/* Dark Theme Variables */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #1C1B1A;
+    --color-surface: #262422;
+    --color-surface-hover: #302D2A;
+    --color-text: #E8E3D9;
+    --color-text-muted: #A39C93;
+    --color-border: #3A3632;
+    --color-accent: #6C9BA4;
+    --color-accent-hover: #8AB7C0;
+    --color-accent-light: #243236;
+  }
+}
+
+[data-theme="dark"] {
+  --color-bg: #1C1B1A;
+  --color-surface: #262422;
+  --color-surface-hover: #302D2A;
+  --color-text: #E8E3D9;
+  --color-text-muted: #A39C93;
+  --color-border: #3A3632;
+  --color-accent: #6C9BA4;
+  --color-accent-hover: #8AB7C0;
+  --color-accent-light: #243236;
+}
+
+/* Base Resets & Global Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-border);
+  transition: text-decoration-color var(--transition-fast), color var(--transition-fast);
+}
+
+a:hover {
+  text-decoration-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+button {
+  font-family: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}

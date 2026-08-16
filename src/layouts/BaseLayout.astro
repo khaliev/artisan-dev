@@ -1,0 +1,75 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLocaleFromUrl, type Locale } from '../lib/i18n';
+import { getCanonicalUrl, getHreflangLinks } from '../lib/seo';
+import { siteConfig } from '../data/site';
+import '../styles/tokens.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const pathname = Astro.url.pathname;
+const locale: Locale = getLocaleFromUrl(pathname);
+
+const pageTitle = title ? `${title} — ${siteConfig.name}` : `${siteConfig.name} — ${siteConfig.tagline[locale]}`;
+const pageDescription = description || siteConfig.tagline[locale];
+const canonicalUrl = getCanonicalUrl(pathname);
+const hreflangLinks = getHreflangLinks(pathname);
+---
+
+<!xhtml>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Primary -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Hreflang Tags -->
+    {hreflangLinks.map((link) => (
+      <link rel={link.rel} hreflang={link.hreflang} href={link.href} />
+    ))}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    {image && <meta property="og:image" content={image} />}
+
+    <!-- Script inline anti-FOUC pour le thème -->
+    <script is:inline>
+      (function() {
+        var savedTheme = localStorage.getItem('theme');
+        var theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <Header />
+    <main id="main-content" class="main-body">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .main-body {
+    flex: 1;
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+</style>

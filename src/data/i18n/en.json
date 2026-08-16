@@ -1,0 +1,16 @@
+{
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ru": "Русский"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

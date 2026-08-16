@@ -1,0 +1,16 @@
+{
+  "theme": {
+    "toggle": "Переключить тему",
+    "light": "Светлая",
+    "dark": "Тёмная"
+  },
+  "language": {
+    "select": "Язык",
+    "fr": "Français",
+    "en": "English",
+    "ru": "Русский"
+  },
+  "footer": {
+    "rights": "Все права защищены."
+  }
+}

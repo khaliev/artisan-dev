@@ -1,0 +1,191 @@
+---
+import { siteConfig } from '../data/site';
+import { navConfig } from '../data/nav';
+import { getLocaleFromUrl, getPageKeyFromPathname, getLocalizedPath, LOCALES, useTranslations, type Locale } from '../lib/i18n';
+
+const pathname = Astro.url.pathname;
+const currentLocale: Locale = getLocaleFromUrl(pathname);
+const currentPageKey = getPageKeyFromPathname(pathname);
+const navItems = navConfig[currentLocale];
+const t = useTranslations(currentLocale);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={getLocalizedPath('home', currentLocale)} class="site-title">
+      {siteConfig.name}
+    </a>
+
+    <nav class="main-nav" aria-label="Navigation principale">
+      <ul class="nav-list">
+        {navItems.map((item) => {
+          const isActive = item.href === pathname || (item.href !== '/' && item.href !== '/en/' && item.href !== '/ru/' && pathname.startsWith(item.href));
+          return (
+            <li>
+              <a href={item.href} class={isActive ? 'nav-link active' : 'nav-link'} aria-current={isActive ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <div class="header-controls">
+      <!-- Sélecteur de langue -->
+      <div class="lang-selector" aria-label={t('language.select')}>
+        {LOCALES.map((locale) => {
+          const targetPath = getLocalizedPath(currentPageKey, locale);
+          const isCurrent = locale === currentLocale;
+          return (
+            <a
+              href={targetPath}
+              class={`lang-link ${isCurrent ? 'current' : ''}`}
+              aria-label={`Passer en ${t(`language.${locale}`)}`}
+            >
+              {locale.toUpperCase()}
+            </a>
+          );
+        })}
+      </div>
+
+      <!-- Bascule Thème Clair / Sombre -->
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label={t('theme.toggle')}>
+        <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Script client minimal pour la bascule de thème avec persistance
+  const toggleBtn = document.getElementById('theme-toggle');
+  
+  function getPreferredTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function setTheme(theme: string) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }
+
+  // Initialisation immédiate au chargement
+  setTheme(getPreferredTheme());
+
+  toggleBtn?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+  });
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .site-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  .site-title:hover {
+    color: var(--color-accent);
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    gap: var(--space-6);
+  }
+
+  .nav-link {
+    font-size: var(--text-sm);
+    text-decoration: none;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .lang-selector {
+    display: flex;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+  }
+
+  .lang-link {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    padding: 2px 4px;
+    border-radius: var(--radius-sm);
+  }
+
+  .lang-link.current {
+    color: var(--color-text);
+    font-weight: bold;
+    background-color: var(--color-surface-hover);
+  }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--text-base);
+    line-height: 1;
+    transition: background-color var(--transition-fast);
+  }
+
+  .theme-toggle:hover {
+    background-color: var(--color-surface-hover);
+  }
+
+  @media (max-width: 768px) {
+    .header-inner {
+      flex-wrap: wrap;
+    }
+    .nav-list {
+      gap: var(--space-3);
+    }
+  }
+</style>
