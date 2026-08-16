@@ -1,13 +1,106 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Timeline from '../../components/Timeline.astro';
+import CTAButton from '../../components/CTAButton.astro';
+import FAQ from '../../components/FAQ.astro';
+import { siteConfig } from '../../data/site';
+import { generatePersonSchema, generateFAQSchema } from '../../lib/seo';
+
+const experiences = [
+  {
+    role: "Independent Web Developer & Digital Craftsman",
+    company: "Artisan Développeur",
+    dateStart: "2024",
+    current: true,
+    location: "Reims, France",
+    summary: "Design and creation of bespoke, eco-friendly, fast, and accessible web applications.",
+    details: [
+      "Development of high-performance static websites using Astro and TypeScript.",
+      "Supporting local organizations in France with high quality digital presence.",
+      "Optimizing performance (Core Web Vitals) and WCAG AA accessibility."
+    ],
+    skills: ["Astro", "TypeScript", "Eco-design", "Accessibility", "CSS Custom Properties"]
+  },
+  {
+    role: "Front-End Developer",
+    company: "Digital Studio",
+    dateStart: "2022",
+    dateEnd: "2024",
+    location: "Grand Est, France",
+    summary: "Creating modern, responsive user interfaces for client projects.",
+    details: [
+      "Responsive web interface integration adhering to web standards.",
+      "Integration testing and performance audits."
+    ],
+    skills: ["JavaScript", "HTML5/CSS3", "Design Systems", "Web Performance"]
+  }
+];
+
+const faqItems = [
+  {
+    question: "Where are you based and what areas do you cover?",
+    answer: "I am based in Reims, in the Grand Est region of France. I work locally in Reims, Châlons-en-Champagne, Troyes, Épernay, Charleville-Mézières, and Soissons, as well as remotely for international projects."
+  },
+  {
+    question: "What is an eco-designed website?",
+    answer: "An eco-designed website is optimized to use minimal computational power and energy. This translates to lean code, fast page loads, no heavy trackers, and a significantly reduced carbon footprint."
+  },
+  {
+    question: "What technologies do you build with?",
+    answer: "I primarily use Astro, TypeScript, semantic HTML5, and Vanilla CSS. This stack guarantees top-tier performance, security, and low maintenance overhead."
+  },
+  {
+    question: "Are your websites accessible to users with disabilities?",
+    answer: "Yes, all my web builds comply with WCAG 2.2 AA standards, ensuring full keyboard navigation, verified color contrast, and proper semantic markup."
+  }
+];
+
+const personSchema = generatePersonSchema('en');
+const faqSchema = generateFAQSchema(faqItems);
 ---
 
-<BaseLayout title="About" description="Background and presentation of Adlan, independent web developer.">
+<BaseLayout
+  title="About"
+  description="Adlan is an independent web developer based in Reims (France). Discover his background, eco-design philosophy, and FAQ."
+  jsonLd={[personSchema, faqSchema]}
+>
   <div class="container">
     <header class="page-header">
-      <h1>About</h1>
-      <p class="subtitle">Digital Craftsman & Independent Web Developer.</p>
+      <h1 class="page-title">About</h1>
+      <p class="subtitle">
+        Adlan is a <strong>digital craftsman and independent web developer</strong> based in Reims (Grand Est, France), 
+        specializing in eco-designed websites and web performance.
+      </p>
     </header>
+
+    <section class="bio-section">
+      <div class="bio-content">
+        <h2>Philosophy & Craft</h2>
+        <p>
+          I approach web development as a craft: every line of code is written with care, simplicity, and sustainability. 
+          I prioritize lightweight, long-lasting static architectures over bloated software stacks.
+        </p>
+        <p>
+          Based in Reims, France, I partner with regional and international organizations to deliver eco-designed, accessible digital tools.
+        </p>
+
+        <div class="cta-wrapper">
+          <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">
+            Contact via email
+          </CTAButton>
+          <CTAButton href={siteConfig.socials.github} variant="outline" external>
+            View GitHub
+          </CTAButton>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience-section">
+      <h2>Background & Experience</h2>
+      <Timeline items={experiences} />
+    </section>
+
+    <FAQ items={faqItems} title="Frequently Asked Questions (FAQ)" />
   </div>
 </BaseLayout>
 
@@ -16,12 +109,52 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     padding-top: var(--space-8);
     padding-bottom: var(--space-8);
   }
-  h1 {
+
+  .page-title {
     font-size: var(--text-3xl);
     margin-bottom: var(--space-2);
   }
+
   .subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
+  }
+
+  .bio-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .bio-content {
+    max-width: 720px;
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .bio-content h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .bio-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-muted);
+  }
+
+  .cta-wrapper {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .experience-section {
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    max-width: 720px;
+  }
+
+  .experience-section h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-8);
   }
 </style>

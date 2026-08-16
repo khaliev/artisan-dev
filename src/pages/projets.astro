@@ -5,7 +5,6 @@ import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects', ({ data }) => data.locale === 'fr');
 
-// Tri : les projets "featured" en premier, puis par date décroissante
 const sortedProjects = projects.sort((a, b) => {
   if (a.data.featured && !b.data.featured) return -1;
   if (!a.data.featured && b.data.featured) return 1;
@@ -13,11 +12,18 @@ const sortedProjects = projects.sort((a, b) => {
 });
 ---
 
-<BaseLayout title="Projets" description="Sélection de projets web, applications et outils sur-mesure développés par Adlan.">
+<BaseLayout
+  title="Projets"
+  description="Découvrez les réalisations et projets web sur-mesure développés par Adlan, artisan développeur web à Reims (Grand Est, France)."
+>
   <div class="container">
     <header class="page-header">
       <h1 class="page-title">Projets</h1>
-      <p class="subtitle">Sélection de réalisations web, outils sur-mesure et projets éco-conçus.</p>
+      <!-- Phrase définitionnelle GEO -->
+      <p class="subtitle">
+        Découvrez les réalisations et projets web sur-mesure conçus par Adlan, développeur web indépendant à Reims (Grand Est, France). 
+        Chaque projet est optimisé pour la vitesse, la sobriété numérique et l'accessibilité.
+      </p>
     </header>
 
     {sortedProjects.length > 0 ? (
@@ -36,6 +42,7 @@ const sortedProjects = projects.sort((a, b) => {
   .page-header {
     padding-top: var(--space-8);
     padding-bottom: var(--space-8);
+    max-width: 800px;
   }
 
   .page-title {
@@ -46,6 +53,7 @@ const sortedProjects = projects.sort((a, b) => {
   .subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
   }
 
   .projects-grid {

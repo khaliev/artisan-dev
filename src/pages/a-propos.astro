@@ -2,7 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Timeline from '../components/Timeline.astro';
 import CTAButton from '../components/CTAButton.astro';
+import FAQ from '../components/FAQ.astro';
 import { siteConfig } from '../data/site';
+import { generatePersonSchema, generateFAQSchema } from '../lib/seo';
 
 const experiences = [
   {
@@ -33,13 +35,43 @@ const experiences = [
     skills: ["JavaScript", "HTML5/CSS3", "Design Systems", "Web Performance"]
   }
 ];
+
+const faqItems = [
+  {
+    question: "Où êtes-vous basé et quelle est votre zone d'intervention ?",
+    answer: "Je suis basé à Reims dans la région Grand Est. J'interviens localement à Reims, Châlons-en-Champagne, Troyes, Épernay, Charleville-Mézières et Soissons, ainsi qu'à distance pour des projets dans toute la France."
+  },
+  {
+    question: "Qu'est-ce qu'un site internet éco-conçu ?",
+    answer: "Un site éco-conçu est optimisé pour consommer un minimum de ressources informatiques et d'énergie. Cela se traduit par un code épuré, des pages légères, l'absence de traqueurs lourds et un temps de chargement quasi-instantané qui réduit l'empreinte carbone."
+  },
+  {
+    question: "Quelles technologies utilisez-vous pour développer vos projets ?",
+    answer: "J'utilise principalement Astro, TypeScript, du HTML5 sémantique et du CSS Vanilla. Cette architecture moderne garantit des performances élevées, une sécurité optimale et une maintenance facilitée."
+  },
+  {
+    question: "Les sites sont-ils conformes aux normes d'accessibilité ?",
+    answer: "Oui, la totalité de mes créations respecte le niveau WCAG 2.2 AA. La navigation complète au clavier, le contraste des couleurs vérifié et l'usage de balises sémantiques sont systématiquement appliqués."
+  }
+];
+
+const personSchema = generatePersonSchema('fr');
+const faqSchema = generateFAQSchema(faqItems);
 ---
 
-<BaseLayout title="À propos" description="Présentation, philosophie et parcours d'Adlan, artisan développeur web basé à Reims.">
+<BaseLayout
+  title="À propos"
+  description="Adlan est un développeur web indépendant basé à Reims (Grand Est, France). Découvrir son parcours, sa philosophie d'éco-conception et sa foire aux questions."
+  jsonLd={[personSchema, faqSchema]}
+>
   <div class="container">
     <header class="page-header">
       <h1 class="page-title">À propos</h1>
-      <p class="subtitle">Artisan du numérique & développeur web indépendant basé à Reims (Grand Est, France).</p>
+      <!-- Phrase définitionnelle pour l'extraction GEO -->
+      <p class="subtitle">
+        Adlan est un <strong>artisan du numérique et développeur web indépendant</strong> basé à Reims (Grand Est, France), 
+        spécialisé dans les sites internet éco-conçus et la performance web.
+      </p>
     </header>
 
     <section class="bio-section">
@@ -70,6 +102,8 @@ const experiences = [
       <h2>Parcours & Expérience</h2>
       <Timeline items={experiences} />
     </section>
+
+    <FAQ items={faqItems} title="Questions fréquentes (FAQ)" />
   </div>
 </BaseLayout>
 

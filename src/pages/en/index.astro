@@ -1,15 +1,36 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTAButton from '../../components/CTAButton.astro';
 import { siteConfig } from '../../data/site';
 ---
 
-<BaseLayout title="Home" description="Portfolio and journal of an independent web developer in France.">
+<BaseLayout
+  title="Home"
+  description="Adlan is an independent web developer based in Reims (Grand Est, France), specializing in eco-designed, fast, and accessible websites."
+>
   <div class="container">
     <section class="hero">
       <h1 class="hero-title">{siteConfig.name}</h1>
+      
+      <p class="hero-definition">
+        Adlan is an <strong>independent web developer and digital craftsman</strong> based in Reims, France, 
+        specializing in eco-designed, high-performance, and accessible websites (WCAG AA standards).
+      </p>
+
       <p class="hero-tagline">{siteConfig.tagline.en}</p>
-      <p class="hero-location">
-        Based in {siteConfig.location.cities[0]} ({siteConfig.location.region}, {siteConfig.location.country}).
+
+      <div class="hero-actions">
+        <CTAButton href="/en/projects/" variant="primary">Explore Projects</CTAButton>
+        <CTAButton href="/en/about/" variant="outline">Learn More</CTAButton>
+      </div>
+    </section>
+
+    <section class="geo-local-section">
+      <h2>Service Area & Regional Focus</h2>
+      <p>
+        Based in Reims within the Grand Est region of France, I work with local businesses, public entities, and creative projects across 
+        <strong>Reims</strong>, <strong>Châlons-en-Champagne</strong>, <strong>Troyes</strong>, <strong>Épernay</strong>, 
+        <strong>Charleville-Mézières</strong>, and <strong>Soissons</strong>, as well as remotely for international clients.
       </p>
     </section>
   </div>
@@ -19,18 +40,48 @@ import { siteConfig } from '../../data/site';
   .hero {
     padding-top: var(--space-12);
     padding-bottom: var(--space-12);
+    max-width: 800px;
   }
+
   .hero-title {
     font-size: var(--text-4xl);
     margin-bottom: var(--space-4);
   }
-  .hero-tagline {
+
+  .hero-definition {
     font-size: var(--text-xl);
-    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
     margin-bottom: var(--space-4);
   }
-  .hero-location {
-    font-size: var(--text-sm);
+
+  .hero-tagline {
+    font-size: var(--text-lg);
     color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .geo-local-section {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    max-width: 720px;
+  }
+
+  .geo-local-section h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .geo-local-section p {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
   }
 </style>
