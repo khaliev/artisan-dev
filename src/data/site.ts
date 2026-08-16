@@ -19,8 +19,8 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: "Artisan Développeur",
   url: "https://artisan-dev.fr",
-  author: "Adlan",
-  email: "contact@artisan-dev.fr",
+  author: "Adlan KHALIEV",
+  email: "adlan.khaliev@tuta.io",
   tagline: {
     fr: "Développeur web indépendant & artisan du numérique",
     en: "Independent Web Developer & Digital Craftsman",
@@ -32,7 +32,7 @@ export const siteConfig: SiteConfig = {
     cities: ["Reims", "Châlons-en-Champagne", "Troyes", "Épernay", "Charleville-Mézières", "Soissons"],
   },
   socials: {
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
+    github: "https://github.com/khaliev",
+    linkedin: "https://linkedin.com/in/khaliev",
   },
 };

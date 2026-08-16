@@ -1,5 +1,11 @@
 # Registre des Décisions & État du Projet
 
+## Statut global : PRÊT POUR MISE EN LIGNE
+
+> Note : les projets Éco-Habitat / CLI Data Artisan ainsi que le parcours
+> professionnel (experience YAML + bios À propos) restent à finaliser par
+> l'auteur. La structure et les traductions sont en place.
+
 ## Tâche 01 — Bootstrap du projet [TERMINÉE]
 - **Astro 7 (v7.2.2) + TypeScript strict** initialisé.
 - Routage i18n natif pour FR, EN, RU (15 pages).
@@ -68,4 +74,21 @@
 1. **Contenu d'expérience centralisé** : les fichiers YAML dans `experience/` sont la source unique de vérité pour les 3 pages About — plus de duplication entre langues.
 2. **Filtre JS minimaliste** : le filtre par type est implémenté en ~15 lignes de JS natif sur `data-type` attributes — aucune lib, aucun bundle supplémentaire.
 3. **Badge type accentué** : sur les pages détail Atelier, le badge de type utilise `var(--color-accent)` (bordure + texte) au lieu du badge neutre des projets, pour renforcer le ton "lab" de l'Atelier.
+
+---
+
+## Tâche 07 — Contenu réel & traductions finales [TERMINÉE]
+
+### État & Avancement
+- **`src/data/site.ts` mis à jour** avec l'identité réelle : auteur « Adlan KHALIEV », email `adlan.khaliev@tuta.io`, GitHub `github.com/khaliev`, LinkedIn `linkedin.com/in/khaliev`.
+- **Nouveau projet réel : DEZAL CONSTRUCTION** (entreprise de maçonnerie générale & rénovation à Reims), ajouté en FR/EN/RU (`translationKey: "dezal"`), avec `demoUrl → https://www.dezal.fr/`, cover + galerie utilisant les vraies images du site client.
+- **Cohérence des `translationKey` vérifiée** dans les 3 langues pour toutes les collections (projets, blog, playground) : aucune page orpheline.
+- **39 pages statiques** générées au build (depuis 36 à la tâche 06).
+
+### Reste à faire par l'auteur
+- Remplacer le contenu des projets Éco-Habitat et CLI Data Artisan (exemples).
+- Remplacer le parcours professionnel (fichiers YAML `experience/` + bios/FAQ des pages À propos).
+
+### Décisions d'architecture prises
+1. **Contenu non inventé** : conformément à la contrainte GEO, seules les informations fournies par l'auteur ou observables sur le site client ont été utilisées. Les champs optionnels médias des autres projets sont conservés tels quels (modification différée par l'auteur).
 

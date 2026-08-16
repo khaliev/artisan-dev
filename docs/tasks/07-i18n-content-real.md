@@ -33,3 +33,5 @@ montré en entretien ou à un client.
 ## Fin de tâche
 Mettre à jour `docs/decisions.md` : passer le statut global à
 "prêt pour mise en ligne".
+
+
