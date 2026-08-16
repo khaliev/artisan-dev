@@ -1,13 +1,75 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { siteConfig } from '../data/site';
+
+const experiences = [
+  {
+    role: "Développeur Web Indépendant & Artisan du Numérique",
+    company: "Artisan Développeur",
+    dateStart: "2024",
+    current: true,
+    location: "Reims, France",
+    summary: "Conception et réalisation d'applications web sur-mesure, éco-conçues, rapides et accessibles.",
+    details: [
+      "Développement de sites statiques haute performance avec Astro et TypeScript.",
+      "Accompagnement des entreprises locales en Région Grand Est dans leur présence numérique.",
+      "Optimisation de la performance (Core Web Vitals) et de l'accessibilité WCAG AA."
+    ],
+    skills: ["Astro", "TypeScript", "Éco-conception", "Accessibility", "CSS Custom Properties"]
+  },
+  {
+    role: "Développeur Front-End",
+    company: "Studio Numérique",
+    dateStart: "2022",
+    dateEnd: "2024",
+    location: "Grand Est, France",
+    summary: "Création d'interfaces utilisateur modernes et réactives pour des projets clients variés.",
+    details: [
+      "Intégration d'interfaces web responsives et respect des standards Web.",
+      "Mise en place de tests d'intégration et audit de performance."
+    ],
+    skills: ["JavaScript", "HTML5/CSS3", "Design Systems", "Web Performance"]
+  }
+];
 ---
 
-<BaseLayout title="À propos" description="Présentation et parcours d'Adlan, développeur web indépendant.">
+<BaseLayout title="À propos" description="Présentation, philosophie et parcours d'Adlan, artisan développeur web basé à Reims.">
   <div class="container">
     <header class="page-header">
-      <h1>À propos</h1>
-      <p class="subtitle">Artisan du numérique & développeur web indépendant.</p>
+      <h1 class="page-title">À propos</h1>
+      <p class="subtitle">Artisan du numérique & développeur web indépendant basé à Reims (Grand Est, France).</p>
     </header>
+
+    <section class="bio-section">
+      <div class="bio-content">
+        <h2>Philosophie & Démarche</h2>
+        <p>
+          Je conçois le développement web comme un artisanat : chaque ligne de code doit être pensée avec soin, 
+          sobriété et durabilité. Loin des usines à gaz informatiques, je privilégie des architectures légères,
+          sans superflu, qui durent dans le temps.
+        </p>
+        <p>
+          Basé à Reims, j'interviens dans toute la région Grand Est ({siteConfig.location.cities.slice(0, 5).join(', ')}) 
+          pour aider les projets locaux à se doter d'outils numériques éco-conçus et accessibles à tous.
+        </p>
+
+        <div class="cta-wrapper">
+          <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">
+            Me contacter par email
+          </CTAButton>
+          <CTAButton href={siteConfig.socials.github} variant="outline" external>
+            Voir GitHub
+          </CTAButton>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience-section">
+      <h2>Parcours & Expérience</h2>
+      <Timeline items={experiences} />
+    </section>
   </div>
 </BaseLayout>
 
@@ -16,12 +78,52 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     padding-top: var(--space-8);
     padding-bottom: var(--space-8);
   }
-  h1 {
+
+  .page-title {
     font-size: var(--text-3xl);
     margin-bottom: var(--space-2);
   }
+
   .subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
+  }
+
+  .bio-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .bio-content {
+    max-width: 720px;
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .bio-content h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .bio-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-muted);
+  }
+
+  .cta-wrapper {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .experience-section {
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    max-width: 720px;
+  }
+
+  .experience-section h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-8);
   }
 </style>
