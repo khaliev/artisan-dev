@@ -1,7 +1,30 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import TestimonialCard from '../../components/TestimonialCard.astro';
 import { getCollection } from 'astro:content';
+
+const testimonials = [
+  {
+    name: 'Claire',
+    role: 'Shop manager',
+    quote: 'End-to-end support: the site is fast, elegant, and immediately increased our appointment requests.',
+    photo: '/avatars/claire.jpg',
+  },
+  {
+    name: 'Thomas',
+    role: 'Restaurateur',
+    quote: 'Delivered on time, clear communication, and a result that lives up to expectations. I highly recommend.',
+    photo: '/avatars/thomas.jpg',
+  },
+  {
+    name: 'Sophie',
+    role: 'Interior architect',
+    quote: 'Adlan translated our universe into an accessible, polished website. The work is clean, precise, professional.',
+    photo: '/avatars/sophie.jpg',
+  },
+];
 
 const projects = await getCollection('projects', ({ data }) => data.locale === 'en');
 
@@ -28,6 +51,19 @@ const sortedProjects = projects.sort((a, b) => {
     ) : (
       <p class="empty-state">No projects available at the moment.</p>
     )}
+
+    <section class="testimonials-section" data-reveal>
+      <SectionHeading
+        eyebrow="Client reviews"
+        title="They trusted me"
+        subtitle="What those who entrusted me with their project have to say."
+      />
+      <div class="testimonials-grid">
+        {testimonials.map((t) => (
+          <TestimonialCard name={t.name} role={t.role} quote={t.quote} photo={t.photo} ratingLabel={`Rating: ${t.rating ?? 5} out of 5`} />
+        ))}
+      </div>
+    </section>
   </div>
 </BaseLayout>
 
@@ -64,5 +100,21 @@ const sortedProjects = projects.sort((a, b) => {
     color: var(--color-text-muted);
     font-style: italic;
     padding-top: var(--space-8);
+  }
+
+  .testimonials-section {
+    padding-top: var(--space-24);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .testimonials-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 </style>
