@@ -92,3 +92,28 @@
 ### Décisions d'architecture prises
 1. **Contenu non inventé** : conformément à la contrainte GEO, seules les informations fournies par l'auteur ou observables sur le site client ont été utilisées. Les champs optionnels médias des autres projets sont conservés tels quels (modification différée par l'auteur).
 
+---
+
+## Tâche 08 — Redesign : professionnel, moderne et vivant [TERMINÉE]
+
+### État & Avancement
+- **`src/styles/tokens.css` réécrit** comme source unique du design :
+  - Palettes **chaudes** : ivoire `#FAF7F0` (light) / charbon doux `#191714` (dark), conformes WCAG AA (contrastes vérifiés).
+  - Accent **teal** `#0E7A6E` (light) / `#2DD4BF` (dark), couleur d'énergie secondaire **ambre** `#B45309` / `#F5B73D` (≤10 % de la surface, règle 60/30/10).
+  - Échelle typographique élargie (`--text-6xl`/`--text-7xl`), `letter-spacing: -0.02em`, `clamp(2.5rem → 4.5rem)` pour le hero.
+  - Ombres chaudes (`--shadow-sm/md/lg/hover`), radius 12-16px, transitions 150-250ms `ease-out`, règle globale `prefers-reduced-motion`.
+- **Nouveau composant `Hero.astro`** (utilisé sur les 3 homepages) : titre XXL orienté valeur, sous-titre avec disponibilité (alternance sept. 2026 + missions freelance), badge « Disponible » à **point vert pulsant**, fond vivant CSS-only (grille de points + halo animé), 2 CTA contrastés, preuves.
+- **Homepages FR/EN/RU restructurées** : alternance des fonds de section, **CTA final inversé à fond accent**, sections en `data-reveal` (fade-up au scroll), en-têtes de section avec label mono accentué.
+- **Cartes modernisées** (`ProjectCard`, `ArticleCard`, `PlaygroundCard`) : bordure + ombre douce au repos, **élévation au hover** (`translateY(-4px)` + ombre + bordure accent), flèche `→` animée, radius 16px. **Placeholder dégradé** (initiales mono + motif de points) pour les cartes sans image — plus jamais de bloc gris vide.
+- **`CTAButton`** : élévation + glow au hover, état `:active` visible.
+- **Footer refondu en colonnes** (marque, navigation localisée, contact, localisation) + barre de copyright ; traductions ajoutées aux 3 fichiers i18n.
+- **Header poli** : liens à soulignement animé, monogramme `A` en logo, toggle thème avec icônes soleil/lune.
+- **Favicon rebrandé** (dégradé teal + ambre, « A » mono).
+- **39 pages statiques** générées au build, aucune régression fonctionnelle.
+
+### Décisions d'architecture prises
+1. **Direction artistique** : warm editorial + tech net (type Linear/Vercel), avec **teal** comme accent principal et **ambre** comme touche d'énergie — le rouge/ambre ne dépasse jamais ~10 % de la surface.
+2. **Zéro lib d'animation** : animations en CSS pur (`@keyframes`, `color-mix`) + un **IntersectionObserver** minimal dans `BaseLayout` pour les fade-up. `prefers-reduced-motion` désactive tout.
+3. **Couleurs chaudes AA** : l'ivoire/le charbon remplacent le slate/gris froid ; chaque paire texte/fond a été vérifiée (≥ 4.5:1).
+4. **Aucun touché** aux routes, i18n, collections, schémas, SEO, hreflang, JSON-LD, sitemap.
+

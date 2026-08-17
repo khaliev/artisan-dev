@@ -24,7 +24,13 @@ const { variant = 'default', class: className = '' } = Astro.props;
 
   .badge-featured {
     background-color: var(--color-accent);
-    color: #ffffff;
+    color: var(--color-accent-contrast);
+    font-weight: 500;
+  }
+
+  .badge-energy {
+    background-color: var(--color-energy);
+    color: var(--color-accent-contrast);
     font-weight: 500;
   }
 

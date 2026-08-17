@@ -15,6 +15,11 @@
     "ru": "Русский"
   },
   "footer": {
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "contactMe": "Contact me",
+    "networks": "Networks",
+    "location": "Location"
   }
 }

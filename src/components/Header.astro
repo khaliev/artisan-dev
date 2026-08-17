@@ -13,6 +13,7 @@ const t = useTranslations(currentLocale);
 <header class="site-header">
   <div class="container header-inner">
     <a href={getLocalizedPath('home', currentLocale)} class="site-title">
+      <span class="site-logo" aria-hidden="true">A</span>
       {siteConfig.name}
     </a>
 
@@ -68,7 +69,8 @@ const t = useTranslations(currentLocale);
 
       <!-- Bascule Thème Clair / Sombre -->
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label={t('theme.toggle')}>
-        <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       </button>
 
       <!-- Menu hamburger (mobile) -->
@@ -171,6 +173,9 @@ const t = useTranslations(currentLocale);
   }
 
   .site-title {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     font-family: var(--font-sans);
     font-size: var(--text-xl);
     font-weight: 700;
@@ -178,6 +183,25 @@ const t = useTranslations(currentLocale);
     text-decoration: none;
     color: var(--color-text);
     white-space: nowrap;
+  }
+
+  .site-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(
+      135deg,
+      var(--color-accent),
+      color-mix(in srgb, var(--color-accent) 70%, var(--color-energy))
+    );
+    color: var(--color-accent-contrast);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1;
   }
 
   .site-title:hover {
@@ -196,6 +220,7 @@ const t = useTranslations(currentLocale);
   }
 
   .nav-link {
+    position: relative;
     font-size: var(--text-sm);
     font-weight: 500;
     text-decoration: none;
@@ -203,13 +228,36 @@ const t = useTranslations(currentLocale);
     transition: color var(--transition-fast);
   }
 
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 2px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-fast);
+  }
+
   .nav-link:hover {
-    color: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
   }
 
   .nav-link.active {
     color: var(--color-accent);
     font-weight: 600;
+  }
+
+  .nav-link.active::after {
+    transform: scaleX(1);
   }
 
   .header-controls {
@@ -239,19 +287,41 @@ const t = useTranslations(currentLocale);
   }
 
   .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: 1px solid var(--color-border);
     color: var(--color-text);
-    padding: var(--space-1) var(--space-3);
+    padding: var(--space-2);
     border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: var(--text-base);
-    line-height: 1;
-    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+    line-height: 0;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
   }
 
   .theme-toggle:hover {
     background-color: var(--color-surface-hover);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-1px);
+  }
+
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .icon-moon {
+    display: none;
+  }
+
+  html[data-theme="dark"] .icon-sun {
+    display: none;
+  }
+
+  html[data-theme="dark"] .icon-moon {
+    display: block;
   }
 
   .lang-selector-mobile {

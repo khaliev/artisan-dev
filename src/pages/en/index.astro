@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTAButton from '../../components/CTAButton.astro';
+import Hero from '../../components/Hero.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import StatsStrip from '../../components/StatsStrip.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
@@ -89,47 +90,28 @@ const methodSteps = [
 >
   <div class="container">
     <!-- Hero -->
-    <section class="hero">
-      <div class="hero-badge">
-        <span class="hero-badge-dot" aria-hidden="true"></span>
-        Available for new projects
-      </div>
-      <h1 class="hero-title">
-        High-<span class="hero-accent">performance</span>, accessible websites engineered to <span class="hero-accent">convert</span>.
-      </h1>
-      <p class="hero-subtitle">
-        Independent developer & web consultant. I build sustainable digital tools that bridge technical excellence with business goals.
-      </p>
-      <div class="hero-actions">
-        <CTAButton href={`mailto:${siteConfig.email}`} variant="primary">Start a project</CTAButton>
-        <CTAButton href="/en/projects/" variant="outline">View work</CTAButton>
-      </div>
-      <ul class="hero-proofs">
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          WCAG 2.2 AA
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          100% Performance
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          0 third-party cookies
-        </li>
-      </ul>
-    </section>
+    <Hero
+      badge="Available — apprenticeship Sept. 2026 & freelance missions"
+      title={`
+        High-<span class="hero-accent">performance</span>, accessible
+        websites engineered to <span class="hero-accent">convert</span>.
+      `}
+      subtitle="Independent web developer based in Reims, France. I build sustainable digital tools that bridge technical excellence with business goals."
+      primaryCta={{ label: "Start a project", href: `mailto:${siteConfig.email}` }}
+      secondaryCta={{ label: "View work", href: "/en/projects/" }}
+      proofs={["WCAG 2.2 AA", "100% Performance", "0 third-party cookies"]}
+    />
   </div>
 
   <!-- Proof -->
-  <section class="home-section stats-section" aria-label="Key numbers & results">
+  <section class="home-section stats-section" aria-label="Key numbers & results" data-reveal>
     <div class="container">
       <StatsStrip items={stats} />
     </div>
   </section>
 
   <!-- Services -->
-  <section class="home-section">
+  <section class="home-section" data-reveal>
     <div class="container">
       <SectionHeading
         eyebrow="Expertise"
@@ -150,7 +132,7 @@ const methodSteps = [
   </section>
 
   <!-- Selected projects -->
-  <section class="home-section projects-section">
+  <section class="home-section projects-section" data-reveal>
     <div class="container">
       <SectionHeading
         eyebrow="Work"
@@ -169,7 +151,7 @@ const methodSteps = [
   </section>
 
   <!-- Method -->
-  <section class="home-section method-section">
+  <section class="home-section method-section" data-reveal>
     <div class="container">
       <SectionHeading
         eyebrow="Process"
@@ -181,9 +163,10 @@ const methodSteps = [
   </section>
 
   <!-- Final CTA -->
-  <section class="home-section">
+  <section class="home-section" data-reveal>
     <div class="container">
       <div class="final-cta">
+        <p class="final-cta-eyebrow">Let's talk about your project</p>
         <h2 class="final-cta-title">Ready to optimize your online presence?</h2>
         <p class="final-cta-text">
           Let's discuss your goals during a free discovery call. Guaranteed reply within 24 business hours.
@@ -201,7 +184,7 @@ const methodSteps = [
   </section>
 
   <!-- Local SEO block -->
-  <section class="home-section geo-local-section">
+  <section class="home-section geo-local-section" data-reveal>
     <div class="container">
       <div class="geo-card">
         <h2>Regional Expertise & Global Reach</h2>
@@ -214,88 +197,6 @@ const methodSteps = [
 </BaseLayout>
 
 <style>
-  .hero {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-24);
-    max-width: 900px;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-accent);
-    background-color: var(--color-accent-light);
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-8);
-    border: 1px solid rgba(var(--color-accent), 0.1);
-  }
-
-  .hero-badge-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--color-accent);
-    box-shadow: 0 0 8px var(--color-accent);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .hero-title {
-    font-size: clamp(var(--text-3xl), 8vw, var(--text-5xl));
-    line-height: 1.1;
-    margin-bottom: var(--space-6);
-  }
-
-  .hero-accent {
-    color: var(--color-accent);
-  }
-
-  .hero-subtitle {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    line-height: var(--leading-relaxed);
-    max-width: 640px;
-    margin-bottom: var(--space-12);
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-    margin-bottom: var(--space-12);
-  }
-
-  .hero-proofs {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-6);
-  }
-
-  .hero-proofs li {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--color-text-muted);
-  }
-
-  .hero-proofs svg {
-    color: var(--color-accent);
-  }
-
   .home-section {
     padding-top: var(--space-24);
     padding-bottom: var(--space-24);
@@ -329,7 +230,7 @@ const methodSteps = [
   }
 
   .projects-section {
-    background-color: var(--color-bg);
+    background-color: var(--color-surface);
   }
 
   .projects-grid {
@@ -351,32 +252,55 @@ const methodSteps = [
   }
 
   .method-section {
-    background-color: var(--color-surface);
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .final-cta {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background-color: var(--color-accent);
+    background-image: radial-gradient(
+      circle at 15% 15%,
+      color-mix(in srgb, var(--color-energy) 28%, transparent),
+      transparent 60%
+    );
+    border: 1px solid var(--color-accent);
     border-radius: var(--radius-lg);
-    padding: var(--space-12) var(--space-8);
+    padding: var(--space-16) var(--space-8);
     text-align: center;
-    max-width: 800px;
+    max-width: 860px;
     margin: 0 auto;
     box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-contrast);
+    opacity: 0.85;
+    margin-bottom: var(--space-3);
   }
 
   .final-cta-title {
-    font-size: var(--text-3xl);
+    font-size: var(--text-4xl);
     margin-bottom: var(--space-4);
+    color: var(--color-accent-contrast);
   }
 
   .final-cta-text {
     font-size: var(--text-lg);
-    color: var(--color-text-muted);
+    color: var(--color-accent-contrast);
+    opacity: 0.9;
     margin-bottom: var(--space-8);
-    max-width: 500px;
+    max-width: 520px;
     margin-left: auto;
     margin-right: auto;
+    line-height: var(--leading-relaxed);
   }
 
   .final-cta-actions {
@@ -386,20 +310,32 @@ const methodSteps = [
     gap: var(--space-6);
   }
 
+  .final-cta :global(.btn-primary) {
+    background-color: var(--color-accent-contrast);
+    color: var(--color-accent);
+    border-color: var(--color-accent-contrast);
+  }
+
+  .final-cta :global(.btn-primary:hover) {
+    background-color: color-mix(in srgb, var(--color-accent-contrast) 90%, var(--color-accent));
+  }
+
   .social-links {
     display: flex;
     gap: var(--space-3);
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--color-text-muted);
+    color: var(--color-accent-contrast);
+    opacity: 0.92;
   }
 
   .social-links a:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-contrast);
+    text-decoration: underline;
   }
 
   .separator {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 
   .geo-local-section {
@@ -407,11 +343,13 @@ const methodSteps = [
   }
 
   .geo-card {
-    background-color: var(--color-bg);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
     border-radius: var(--radius-md);
     padding: var(--space-8);
-    max-width: 700px;
+    max-width: 720px;
+    box-shadow: var(--shadow-sm);
   }
 
   .geo-card h2 {
