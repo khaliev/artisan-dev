@@ -19,6 +19,8 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     <div class="hero-glow"></div>
   </div>
 
+  <div class="hero-float" aria-hidden="true"></div>
+
   <div class="hero-badge">
     <span class="hero-badge-dot" aria-hidden="true"></span>
     {badge}
@@ -43,6 +45,39 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     </ul>
   )}
 </section>
+
+<script is:inline>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var title = document.querySelector('.hero-title');
+    if (!title) return;
+
+    var walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+    var textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+    var i = 0;
+    textNodes.forEach(function (node) {
+      var parts = node.nodeValue.split(/(\s+)/);
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) {
+          frag.appendChild(document.createTextNode(part));
+        } else {
+          var span = document.createElement('span');
+          span.className = 'hero-word';
+          span.style.setProperty('--i', String(i++));
+          span.textContent = part;
+          frag.appendChild(span);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    title.classList.add('is-animating');
+  })();
+</script>
 
 <style>
   .hero {
@@ -86,12 +121,31 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
       color-mix(in srgb, var(--color-accent) 22%, transparent),
       transparent 65%
     );
-    animation: glow-drift var(--transition-slow) ease-in-out infinite alternate;
+    animation: glow-drift var(--duration-16000) var(--ease-in-out) infinite alternate;
   }
 
   @keyframes glow-drift {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(-18px, 14px) scale(1.08); }
+    from { transform: translate(0, 0) scale(1); opacity: 0.9; }
+    to { transform: translate(-26px, 18px) scale(1.16); opacity: 1; }
+  }
+
+  /* Élément décoratif flottant discret */
+  .hero-float {
+    position: absolute;
+    z-index: 0;
+    right: 6%;
+    bottom: var(--space-16);
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--color-accent) 32%, transparent);
+    animation: float-slow 11s var(--ease-in-out) infinite;
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: rotate(45deg) translate(0, 0); }
+    50% { transform: rotate(45deg) translate(10px, -18px); }
   }
 
   .hero-badge {
@@ -110,6 +164,13 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     border-radius: var(--radius-full);
     margin-bottom: var(--space-8);
     border: 1px solid var(--color-border);
+    animation: hero-el-in var(--duration-slow) var(--ease-out-quart) both;
+    animation-delay: 40ms;
+  }
+
+  @keyframes hero-el-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
   }
 
   .hero-badge-dot {
@@ -137,6 +198,18 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     max-width: 18ch;
   }
 
+  /* Cascade de mots (activée par le script, jamais sans JS) */
+  .hero-title.is-animating .hero-word {
+    opacity: 0;
+    animation: hero-word-in var(--duration-slow) var(--ease-out-quart) forwards;
+    animation-delay: calc(120ms + var(--i) * var(--stagger-step));
+  }
+
+  @keyframes hero-word-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+
   .hero-title :global(.hero-accent) {
     color: var(--color-accent);
     background: var(--color-accent-light);
@@ -155,6 +228,8 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     line-height: var(--leading-relaxed);
     max-width: 620px;
     margin-bottom: var(--space-12);
+    animation: hero-el-in var(--duration-slow) var(--ease-out-quart) both;
+    animation-delay: 340ms;
   }
 
   .hero-actions {
@@ -164,6 +239,8 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     gap: var(--space-4);
     flex-wrap: wrap;
     margin-bottom: var(--space-12);
+    animation: hero-el-in var(--duration-slow) var(--ease-out-quart) both;
+    animation-delay: 440ms;
   }
 
   .hero-proofs {
@@ -174,6 +251,8 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
     flex-wrap: wrap;
     gap: var(--space-6);
     padding: 0;
+    animation: hero-el-in var(--duration-slow) var(--ease-out-quart) both;
+    animation-delay: 540ms;
   }
 
   .hero-proofs li {
@@ -187,5 +266,22 @@ const { badge, title, subtitle, primaryCta, secondaryCta, proofs } = Astro.props
 
   .hero-proofs svg {
     color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .hero-float {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float {
+      display: none;
+    }
+
+    .hero-title.is-animating .hero-word {
+      opacity: 1;
+      animation: none;
+    }
   }
 </style>

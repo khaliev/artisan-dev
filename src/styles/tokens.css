@@ -47,10 +47,24 @@
   --shadow-lg: 0 16px 32px -12px rgb(60 42 20 / 0.16), 0 4px 10px -4px rgb(60 42 20 / 0.08);
   --shadow-hover: 0 18px 36px -12px rgb(60 42 20 / 0.22), 0 6px 14px -6px rgb(60 42 20 / 0.12);
 
+  /* Animation - durées & easings centralisés */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-800: 800ms;
+  --duration-16000: 16s;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --stagger-step: 60ms;
+
   /* Transitions */
-  --transition-fast: 150ms ease-out;
-  --transition-normal: 250ms ease-out;
-  --transition-slow: 400ms ease-out;
+  --transition-fast: var(--duration-fast) var(--ease-out);
+  --transition-normal: var(--duration-normal) var(--ease-out);
+  --transition-slow: var(--duration-slow) var(--ease-out);
+  --transition-theme: background-color 300ms ease-out, color 300ms ease-out, border-color 300ms ease-out;
 }
 
 /* Light Theme (Warm Ivory + Teal punch) */
@@ -158,6 +172,17 @@ body {
   flex-direction: column;
 }
 
+/* Transition douce de thème clair/sombre (sans animer au premier chargement :
+   le thème est déjà posé par le script anti-FOUC avant le premier paint) */
+body,
+main {
+  transition: var(--transition-theme);
+}
+
+html {
+  transition: background-color 300ms ease-out;
+}
+
 /* Accessibility Focus Ring */
 :focus-visible {
   outline: var(--focus-ring);
@@ -263,6 +288,7 @@ button {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
