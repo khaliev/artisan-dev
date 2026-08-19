@@ -12,7 +12,8 @@ export interface SiteConfig {
   socials: {
     github: string;
     linkedin: string;
-    twitter?: string;
+    instagram: string;
+    facebook: string; 
   };
 }
 
