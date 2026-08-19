@@ -65,7 +65,7 @@ const playgroundCollection = defineCollection({
     translationKey: z.string(),
     summary: z.string(),
     date: z.coerce.date(),
-    type: z.enum(['experiment', 'component', 'prototype', 'challenge', 'lab-note']),
+    type: z.enum(['experiment', 'vibecoding', 'mini-app', 'component', 'prototype', 'challenge', 'lab-note']),
     description: z.string().optional(),
     stack: z.array(z.string()).optional(),
     coverImage: z.string().optional(),

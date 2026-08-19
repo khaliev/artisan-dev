@@ -1,0 +1,24 @@
+---
+title: "Мини-приложение погоды в вайбкодинге"
+slug: "mini-prilozhenie-pogoda-vibecoding"
+locale: "ru"
+translationKey: "weather-mini-app-vibecoding"
+summary: "Погодное приложение, созданное во время сессии вайбкодинга с ИИ"
+date: 2026-08-15
+type: vibecoding
+stack:
+  - JavaScript
+  - API
+  - HTML
+  - CSS
+youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+---
+
+## Контекст
+
+Это мини-приложение было создано во время сессии **вайбкодинга** с использованием ИИ для быстрого прототипирования.
+
+## Возможности
+
+- Получение данных о погоде в реальном времени через открытый API.
+- Лаконичный интерфейс без тяжелых сторонних библиотек.

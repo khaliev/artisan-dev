@@ -30,6 +30,8 @@
       "type": "string",
       "enum": [
         "experiment",
+        "vibecoding",
+        "mini-app",
         "component",
         "prototype",
         "challenge",
