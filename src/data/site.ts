@@ -9,12 +9,12 @@ export interface SiteConfig {
     region: string;
     cities: string[];
   };
-  socials: {
-    github: string;
-    linkedin: string;
-    instagram: string;
-    facebook: string; 
-  };
+ socials: {
+  linkedin: "https://linkedin.com/in/exemple",
+  instagram: "https://instagram.com/exemple",
+  facebook: "https://facebook.com/exemple",
+  github: "https://github.com/exemple"
+}
 }
 
 export const siteConfig: SiteConfig = {
@@ -35,5 +35,7 @@ export const siteConfig: SiteConfig = {
   socials: {
     github: "https://github.com/khaliev",
     linkedin: "https://linkedin.com/in/khaliev",
+    instagram: "https://instagram.com/exemple",
+  facebook: "https://facebook.com/exemple",
   },
 };
