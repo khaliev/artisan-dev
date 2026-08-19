@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -47,7 +48,11 @@ const typeLabels: Record<string, string> = {
 >
   <article class="item-detail">
     <div class="container">
-      <a href="/atelier/" class="back-link">&larr; Retour à l'Atelier</a>
+      <Breadcrumb items={[
+        { label: 'Accueil', href: '/' },
+        { label: 'Atelier', href: '/atelier/' },
+        { label: data.title },
+      ]} />
 
       <header class="detail-header">
         <div class="header-meta">

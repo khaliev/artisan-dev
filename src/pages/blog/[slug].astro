@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import Badge from '../../components/Badge.astro';
 import Tag from '../../components/Tag.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ReadingProgress from '../../components/ReadingProgress.astro';
 import { getCollection, render } from 'astro:content';
 import { generateBlogPostingSchema, getCanonicalUrl } from '../../lib/seo';
 import { siteConfig } from '../../data/site';
@@ -64,9 +66,14 @@ const blogPostingSchema = generateBlogPostingSchema({
   image={data.coverImage}
   jsonLd={blogPostingSchema}
 >
+  <ReadingProgress />
   <article class="article-detail">
     <div class="container">
-      <a href="/blog/" class="back-link">&larr; Retour aux articles</a>
+      <Breadcrumb items={[
+        { label: 'Accueil', href: '/' },
+        { label: 'Blog', href: '/blog/' },
+        { label: data.title },
+      ]} />
 
       <header class="article-header">
         <div class="header-meta">

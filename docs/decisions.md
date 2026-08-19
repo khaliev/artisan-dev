@@ -94,26 +94,46 @@
 
 ---
 
-## Tâche 08 — Redesign : professionnel, moderne et vivant [TERMINÉE]
+## Tâche 08 — Finitions, Polish & Expérience Utilisateur [TERMINÉE]
 
 ### État & Avancement
-- **`src/styles/tokens.css` réécrit** comme source unique du design :
-  - Palettes **chaudes** : ivoire `#FAF7F0` (light) / charbon doux `#191714` (dark), conformes WCAG AA (contrastes vérifiés).
-  - Accent **teal** `#0E7A6E` (light) / `#2DD4BF` (dark), couleur d'énergie secondaire **ambre** `#B45309` / `#F5B73D` (≤10 % de la surface, règle 60/30/10).
-  - Échelle typographique élargie (`--text-6xl`/`--text-7xl`), `letter-spacing: -0.02em`, `clamp(2.5rem → 4.5rem)` pour le hero.
-  - Ombres chaudes (`--shadow-sm/md/lg/hover`), radius 12-16px, transitions 150-250ms `ease-out`, règle globale `prefers-reduced-motion`.
-- **Nouveau composant `Hero.astro`** (utilisé sur les 3 homepages) : titre XXL orienté valeur, sous-titre avec disponibilité (alternance sept. 2026 + missions freelance), badge « Disponible » à **point vert pulsant**, fond vivant CSS-only (grille de points + halo animé), 2 CTA contrastés, preuves.
-- **Homepages FR/EN/RU restructurées** : alternance des fonds de section, **CTA final inversé à fond accent**, sections en `data-reveal` (fade-up au scroll), en-têtes de section avec label mono accentué.
-- **Cartes modernisées** (`ProjectCard`, `ArticleCard`, `PlaygroundCard`) : bordure + ombre douce au repos, **élévation au hover** (`translateY(-4px)` + ombre + bordure accent), flèche `→` animée, radius 16px. **Placeholder dégradé** (initiales mono + motif de points) pour les cartes sans image — plus jamais de bloc gris vide.
-- **`CTAButton`** : élévation + glow au hover, état `:active` visible.
-- **Footer refondu en colonnes** (marque, navigation localisée, contact, localisation) + barre de copyright ; traductions ajoutées aux 3 fichiers i18n.
-- **Header poli** : liens à soulignement animé, monogramme `A` en logo, toggle thème avec icônes soleil/lune.
-- **Favicon rebrandé** (dégradé teal + ambre, « A » mono).
-- **39 pages statiques** générées au build, aucune régression fonctionnelle.
+- **View Transitions natives Astro** : activation de `<ClientRouter />` dans `BaseLayout.astro` avec animation fade fluide (200ms) sur le conteneur principal.
+- **Bouton « Retour en haut » (`BackToTop.astro`)** :
+  - Positionnement fixe en bas à droite, masqué par défaut.
+  - Apparition fluide (fade-in / translateY) après 400px de scroll.
+  - Clic déclenchant un `window.scrollTo({ top: 0, behavior: 'smooth' })`.
+  - Désactivation gracieuse des transitions sous `prefers-reduced-motion`.
+- **Barre de progression de lecture (`ReadingProgress.astro`)** :
+  - Barre fine (3px) fixée au sommet du viewport, couleur `--accent`.
+  - Calcul dynamique en JS natif basé sur le scroll effectif sur tous les articles de blog (FR, EN, RU).
+- **Fil d'Ariane (`Breadcrumb.astro`)** :
+  - Intégré sur l'ensemble des pages de détail des 3 langues : Projets (`/projets/[slug]`), Atelier (`/atelier/[slug]`), Blog (`/blog/[slug]`).
+  - Hiérarchie claire et accessible (`Accueil > Section > Titre`).
+- **Page 404 sur-mesure (`404.astro`)** :
+  - Design soigné en accord avec la charte graphique : code 404 mono XXL, message chaleureux et double CTA de redirection.
+- **Micro-polish CSS** :
+  - `scroll-behavior: smooth` activé sur `html`.
+  - Scrollbar personnalisée (Webkit & Firefox) aux couleurs du thème (`--border` / `--accent` / `--bg`).
 
-### Décisions d'architecture prises
-1. **Direction artistique** : warm editorial + tech net (type Linear/Vercel), avec **teal** comme accent principal et **ambre** comme touche d'énergie — le rouge/ambre ne dépasse jamais ~10 % de la surface.
-2. **Zéro lib d'animation** : animations en CSS pur (`@keyframes`, `color-mix`) + un **IntersectionObserver** minimal dans `BaseLayout` pour les fade-up. `prefers-reduced-motion` désactive tout.
-3. **Couleurs chaudes AA** : l'ivoire/le charbon remplacent le slate/gris froid ; chaque paire texte/fond a été vérifiée (≥ 4.5:1).
-4. **Aucun touché** aux routes, i18n, collections, schémas, SEO, hreflang, JSON-LD, sitemap.
+---
+
+## Tâche 09 — Vérification & Nettoyage Final [TERMINÉE]
+
+### Audit & Contrôles effectués
+1. **Validité des builds & SSR** : Toutes les pages statiques sont générées sans erreur ni warning critique.
+2. **Parité linguistique complète (FR / EN / RU)** :
+   - 100 % des routes de listing et de détail existantes et interconnectées avec les bons liens canoniques et `hreflang`.
+   - Tous les labels et métadonnées traduits fidèlement.
+3. **Résilience des champs optionnels** :
+   - Absence d'image → Rendu impeccable grâce aux générateurs de dégradés et placeholders typographiques.
+   - Absence de vidéo / démo / repo → Masquage propre des boutons et des iframes sans espace vide orphelin.
+4. **Cohérence bithème (Clair / Sombre)** :
+   - Tokens CSS unifiés `--bg`, `--surface`, `--text`, `--text-muted`, `--border`, `--accent`, `--cta`, `--success`.
+   - Script anti-FOUC inline garantissant l'absence de scintillement.
+5. **Footer & Réseaux sociaux** :
+   - Affichage dynamique des icônes SVG depuis `site.ts`, masquage automatique des réseaux non renseignés.
+6. **Accessibilité & Éco-conception** :
+   - Focus visible (`:focus-visible`) sur tous les éléments interactifs.
+   - Respect strict de `prefers-reduced-motion` désactivant toutes les animations et transitions superflues.
+   - 100 % HTML/CSS/JS natif, zéro dépendance JS superflue côté client.
 

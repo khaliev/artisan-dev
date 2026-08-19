@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -37,7 +38,11 @@ const youtubeEmbedUrl = getYouTubeEmbedUrl(data.youtubeUrl);
 >
   <article class="project-detail">
     <div class="container">
-      <a href="/projets/" class="back-link">&larr; Retour aux projets</a>
+      <Breadcrumb items={[
+        { label: 'Accueil', href: '/' },
+        { label: 'Projets', href: '/projets/' },
+        { label: data.title },
+      ]} />
 
       <header class="detail-header">
         <div class="header-meta">

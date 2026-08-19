@@ -1,6 +1,8 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import SEO from '../components/SEO.astro';
 import { getLocaleFromUrl, type Locale } from '../lib/i18n';
 import '../styles/tokens.css';
@@ -27,6 +29,9 @@ const locale: Locale = getLocaleFromUrl(pathname);
 
     <SEO title={title} description={description} image={image} jsonLd={jsonLd} />
 
+    <!-- View Transitions : fade douce 200ms sur le contenu principal -->
+    <ClientRouter />
+
     <!-- Script inline anti-FOUC pour le thème -->
     <script is:inline>
       (function() {
@@ -39,10 +44,11 @@ const locale: Locale = getLocaleFromUrl(pathname);
 
   <body>
     <Header />
-    <main id="main-content" class="main-body">
+    <main id="main-content" class="main-body" transition:animate="fade">
       <slot />
     </main>
     <Footer />
+    <BackToTop />
   </body>
 </html>
 
